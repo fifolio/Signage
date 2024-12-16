@@ -9,6 +9,15 @@ import {
     MenubarTrigger,
 } from "@/components/ui/menubar"
 import { Button } from "@/components/ui/button"
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog"
+
 
 // ICONS
 import { TiThMenu } from "react-icons/ti";
@@ -26,12 +35,12 @@ import { LuFullscreen } from "react-icons/lu";
 export default function Navbar() {
     return (
         <nav className="bg-white w-full m-0 shadow-sm px-3 py-2 flex justify-between items-center">
-            {/* LEFT SECTION */}
 
+            {/* LEFT SECTION */}
             <div className="flex justify-start space-x-2">
                 {/* FULL-SCREEN BUTTON */}
                 <Button variant="outline">
-                    <LuFullscreen className="!size-5"/>
+                    <LuFullscreen className="!size-5" />
                 </Button>
 
                 {/* MENU */}
@@ -78,10 +87,24 @@ export default function Navbar() {
                 </Button>
 
                 {/* SETTINGS BUTTON */}
-                <Button variant="outline" className="flex justify-center items-center capitalize">
-                    <FcSettings className="size-5" />
-                    <span>Settings</span>
-                </Button>
+                <Dialog>
+                    <DialogTrigger>
+                        <Button variant="outline" className="flex justify-center items-center capitalize">
+                            <FcSettings className="size-5" />
+                            <span>Settings</span>
+                        </Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                        <DialogHeader>
+                            <DialogTitle>Are you absolutely sure?</DialogTitle>
+                            <DialogDescription>
+                                This action cannot be undone. This will permanently delete your account
+                                and remove your data from our servers.
+                            </DialogDescription>
+                        </DialogHeader>
+                    </DialogContent>
+                </Dialog>
+
             </div>
         </nav>
     )
