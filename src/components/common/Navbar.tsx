@@ -25,13 +25,13 @@ import { LuFullscreen } from "react-icons/lu";
 
 export default function Navbar() {
     return (
-        <nav className="bg-white w-full m-0 shadow-sm px-4 py-2 flex justify-between items-center">
+        <nav className="bg-white w-full m-0 shadow-sm px-3 py-2 flex justify-between items-center">
             {/* LEFT SECTION */}
 
             <div className="flex justify-start space-x-2">
                 {/* FULL-SCREEN BUTTON */}
                 <Button variant="outline">
-                    <LuFullscreen className="size-4"/>
+                    <LuFullscreen className="!size-5"/>
                 </Button>
 
                 {/* MENU */}
