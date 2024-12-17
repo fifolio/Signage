@@ -1,5 +1,5 @@
 // UI
-import { Navbar } from "@/components/common";
+import { Footer, Navbar } from "@/components/common";
 import { Tools } from "@/components";
 
 export default function Dashboard() {
@@ -19,6 +19,9 @@ export default function Dashboard() {
                 <div className="">2</div>
                 <div className="">3</div>
             </main>
+            <footer className="fixed bottom-0 w-full">
+                <Footer />
+            </footer>
         </>
     )
 }

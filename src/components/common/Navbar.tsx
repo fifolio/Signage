@@ -25,8 +25,8 @@ import { FcFile } from "react-icons/fc";
 import { FcOpenedFolder } from "react-icons/fc";
 import { FcInfo } from "react-icons/fc";
 import { FcSettings } from "react-icons/fc";
-import { FcOk } from "react-icons/fc";
 import { LuFullscreen } from "react-icons/lu";
+import { FcUpload } from "react-icons/fc";
 
 
 
@@ -61,7 +61,7 @@ export default function Navbar() {
                             </MenubarItem>
                             <MenubarSeparator className="flex md:hidden" />
                             <MenubarItem className="flex md:hidden cursor-pointer hover:font-semibold">
-                                Save updates <MenubarShortcut><FcOk className="size-4" /></MenubarShortcut>
+                                Sync updates <MenubarShortcut><FcUpload className="size-4" /></MenubarShortcut>
                             </MenubarItem>
                             <MenubarItem className="flex md:hidden cursor-pointer hover:font-semibold">
                                 Settings <MenubarShortcut><FcSettings className="size-4" /></MenubarShortcut>
@@ -82,15 +82,15 @@ export default function Navbar() {
             <div className="hidden md:flex space-x-2 capitalize">
                 {/* SAVE BUTTON */}
                 <Button variant="outline" className="flex justify-center items-center capitalize">
-                    <FcOk className="size-5" />
-                    <span>Save updates</span>
+                    <FcUpload className="!size-5" />
+                    <span>Sync updates</span>
                 </Button>
 
                 {/* SETTINGS BUTTON */}
                 <Dialog>
                     <DialogTrigger>
                         <Button variant="outline" className="flex justify-center items-center capitalize">
-                            <FcSettings className="size-5" />
+                            <FcSettings className="!size-5" />
                             <span>Settings</span>
                         </Button>
                     </DialogTrigger>
