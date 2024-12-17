@@ -8,21 +8,21 @@ export default function Footer() {
 
             {/* LEFT AREA */}
             <div className="flex justify-start">
-                {/* SYNC STATE */}
+                {/* CONNECTION STATE */}
                 <div>
-                    {/* UnSynced - INDICATOR */}
-                    <span id="unsynced" className="block">
+                    {/* Disconnected - INDICATOR */}
+                    <span id="disconnected" className="hidden">
                         <div className="flex justify-center items-center space-x-2">
                             <span><FcHighPriority className="!size-4" /></span>
-                            <span>Unsynced</span>
+                            <span>Disconnected</span>
                         </div>
                     </span>
 
-                    {/* Synced - INDICATOR */}
-                    <span id="synced" className="hidden">
+                    {/* Connected - INDICATOR */}
+                    <span id="connected" className="block">
                         <div className="flex justify-center items-center space-x-2">
                             <span><FcOk className="!size-4" /></span>
-                            <span className="border-r-[1px] pr-2">Synced</span>
+                            <span className="border-r-[1px] pr-2">Connected</span>
                             <div className="">
                                 Display ID: DISP-001
                             </div>
