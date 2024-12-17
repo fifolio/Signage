@@ -11,7 +11,7 @@ export default function Footer() {
                 {/* CONNECTION STATE */}
                 <div>
                     {/* Disconnected - INDICATOR */}
-                    <span id="disconnected" className="hidden">
+                    <span id="disconnected" className="block">
                         <div className="flex justify-center items-center space-x-2">
                             <span><FcHighPriority className="!size-4" /></span>
                             <span>Disconnected</span>
@@ -19,7 +19,7 @@ export default function Footer() {
                     </span>
 
                     {/* Connected - INDICATOR */}
-                    <span id="connected" className="block">
+                    <span id="connected" className="hidden">
                         <div className="flex justify-center items-center space-x-2">
                             <span><FcOk className="!size-4" /></span>
                             <span className="border-r-[1px] pr-2">Connected</span>

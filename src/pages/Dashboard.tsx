@@ -1,6 +1,6 @@
 // UI
 import { Footer, Navbar } from "@/components/common";
-import { Manage, Tools } from "@/components";
+import { Canvas, Manage, Tools } from "@/components";
 
 export default function Dashboard() {
     return (
@@ -23,7 +23,9 @@ export default function Dashboard() {
                 </div>
 
                 {/* CANVAS SECTION */}
-                <div className="bg-transparent min-h-screen w-full pt-[55px]">2</div>
+                <div className="bg-transparent min-h-screen w-full pt-[55px]">
+                    <Canvas />
+                </div>
 
                 {/* MANAGE SECTION */}
                 <div className="hidden md:block bg-white h-screen min-w-[290px] pt-[55px] border-l-[1px] border-gray-200">
