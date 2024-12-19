@@ -1,7 +1,7 @@
 import { create } from 'zustand';
-import useText_interface from '@/interfaces/tools/useText_interface';
+import useTools_interface from '@/interfaces/tools/useTools_interface';
 
-const useTools = create<useText_interface>((set) => ({
+const useTools = create<useTools_interface>((set) => ({
     textOptions: {
         color: '',
         fontSize: 0,
