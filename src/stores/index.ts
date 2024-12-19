@@ -1,1 +1,1 @@
-export { default as useText } from './tools/useText'
+export { default as useTools } from './tools/useTools'

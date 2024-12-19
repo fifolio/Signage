@@ -30,7 +30,7 @@ import { GoHorizontalRule } from "react-icons/go";
 import { RxDividerVertical } from "react-icons/rx";
 
 // STORES
-import { useText } from "@/stores/tools/useText";
+import useTools from "@/stores/tools/useTools";
 
 
 export default function Tools() {
@@ -54,7 +54,7 @@ export default function Tools() {
         // Add Vertical Line
         setAddVerticalLine
 
-    } = useText();
+    } = useTools();
 
     // Adding Text
     const [text, setText] = useState("");

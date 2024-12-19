@@ -1,7 +1,7 @@
 import { create } from 'zustand';
-import { useText_interface } from '@/interfaces/tools/useText_interface';
+import useText_interface from '@/interfaces/tools/useText_interface';
 
-export const useText = create<useText_interface>((set) => ({
+const useTools = create<useText_interface>((set) => ({
     textOptions: {
         color: '',
         fontSize: 0,
@@ -41,3 +41,5 @@ export const useText = create<useText_interface>((set) => ({
     addVerticalLine: false,
     setAddVerticalLine: (state) => set({ addVerticalLine: state }),
 }))
+
+export default useTools;

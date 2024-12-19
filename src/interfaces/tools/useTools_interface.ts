@@ -1,4 +1,4 @@
-export interface useText_interface {
+interface useTools_interface {
     textOptions: {
         color: string,
         fontSize: number,
@@ -38,3 +38,5 @@ export interface useText_interface {
     addVerticalLine: boolean,
     setAddVerticalLine: (state: boolean) => void,
 }
+
+export default useTools_interface

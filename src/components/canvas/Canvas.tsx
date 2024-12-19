@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { Textbox, Canvas as FabricCanvas, Rect, Circle, Line } from 'fabric'; // Assuming you're using fabric.js for canvas
 
 // STORES
-import { useText } from '@/stores/tools/useText';
+import useTools from '@/stores/tools/useTools';
 
 export default function Canvas() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -31,7 +31,7 @@ export default function Canvas() {
     // Add Vertical Line
     addVerticalLine,
     setAddVerticalLine,
-  } = useText();
+  } = useTools();
 
   useEffect(() => {
     if (canvasRef.current) {
