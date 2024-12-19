@@ -1,1 +1,1 @@
-export { default as useTools_interface } from './tools/useTools_interface'
+export type { default as useTools_interface } from './tools/useTools_interface'
