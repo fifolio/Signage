@@ -1,0 +1,1 @@
+export { default as useText } from './tools/useText'

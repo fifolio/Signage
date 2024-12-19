@@ -1,0 +1,1 @@
+export { default as useText_interface } from './tools/useText_interface'
