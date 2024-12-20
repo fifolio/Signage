@@ -1,5 +1,11 @@
 import { useEffect, useRef } from 'react';
-import { Textbox, Canvas as FabricCanvas, Rect, Circle, Line } from 'fabric'; // Assuming you're using fabric.js for canvas
+import {
+  Textbox,
+  Canvas as FabricCanvas,
+  Rect,
+  Circle,
+  Line
+} from 'fabric'; 
 
 // STORES
 import useTools from '@/stores/tools/useTools';
@@ -32,6 +38,8 @@ export default function Canvas() {
     addVerticalLine,
     setAddVerticalLine,
   } = useTools();
+
+  
 
   useEffect(() => {
     if (canvasRef.current) {
@@ -81,6 +89,7 @@ export default function Canvas() {
   }, []);
 
 
+
   // Handle Adding Text
   useEffect(() => {
     if (handleAddText && canvasInstance.current) {
@@ -100,6 +109,7 @@ export default function Canvas() {
       setHandleAddText(false);
     }
   }, [handleAddText, textOptions, setHandleAddText]);
+
 
 
   // Handle Adding Square
@@ -125,6 +135,7 @@ export default function Canvas() {
   }, [squareOptions, addingSquare, setAddingSquare]);
 
 
+
   // Handle Adding Circle
   useEffect(() => {
     if (addingCircle && canvasInstance.current) {
@@ -146,6 +157,8 @@ export default function Canvas() {
     }
   }, [circleOptions, addingCircle, setAddingCircle]);
 
+
+
   // Handle Adding Horizontal Line
   useEffect(() => {
     if (addHorizontalLine && canvasInstance.current) {
@@ -163,6 +176,8 @@ export default function Canvas() {
       setAddHorizontalLine(false);
     }
   }, [addHorizontalLine, setAddHorizontalLine]);
+
+
 
   // Handle Adding Vertical Line
   useEffect(() => {
