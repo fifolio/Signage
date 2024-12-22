@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import useFileName_interface from '@/interfaces/settings/useFileName_interface';
+import { useFileName_interface } from '@/interfaces';
 
 const useFileName = create<useFileName_interface>((set) => ({
 

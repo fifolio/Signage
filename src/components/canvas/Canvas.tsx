@@ -5,10 +5,11 @@ import {
   Rect,
   Circle,
   Line
-} from 'fabric'; 
+} from 'fabric';
 
 // STORES
 import useTools from '@/stores/tools/useTools';
+import useCanvasStore from '@/stores/canvasStore/useCanvasStore';
 
 export default function Canvas() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -39,7 +40,9 @@ export default function Canvas() {
     setAddVerticalLine,
   } = useTools();
 
-  
+
+  // Update the canvas store with the current canvas data
+  const { setJsonData } = useCanvasStore();
 
   useEffect(() => {
     if (canvasRef.current) {
@@ -80,10 +83,24 @@ export default function Canvas() {
 
       window.addEventListener('keydown', handleKeyDown);
 
+       // Update JSON data whenever the canvas changes
+       const updateJsonData = () => {
+        const json = canvas.toJSON();
+        const jsonString = JSON.stringify(json);
+        setJsonData(jsonString);
+      };
+
+      canvas.on('object:added', updateJsonData);
+      canvas.on('object:modified', updateJsonData);
+      canvas.on('object:removed', updateJsonData);
+
       // Cleanup function
       return () => {
         canvas.dispose();
         window.removeEventListener('keydown', handleKeyDown);
+        canvas.off('object:added', updateJsonData);
+        canvas.off('object:modified', updateJsonData);
+        canvas.off('object:removed', updateJsonData);
       };
     }
   }, []);

@@ -1,4 +1,4 @@
-interface useFileName_interface {
+export default interface useFileName_interface {
     currentFileName: string,
     setCurrentFileName: (state: string) => void,
 
@@ -6,5 +6,3 @@ interface useFileName_interface {
     setNewFileName: (state: string) => void,
    
 }
-
-export default useFileName_interface
