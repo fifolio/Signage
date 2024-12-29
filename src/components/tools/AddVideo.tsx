@@ -19,6 +19,11 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 // ICONS
 import { FcStart } from "react-icons/fc";
+import { FcVideoCall } from "react-icons/fc";
+import { FcLink } from "react-icons/fc";
+import { FcSmartphoneTablet } from "react-icons/fc";
+import { FcUpload } from "react-icons/fc";
+
 
 // STORES
 import { useTools } from "@/stores";
@@ -88,7 +93,10 @@ export default function AddVideo() {
                 {/* VIDEO CONTENT */}
                 <div className={`${checkPoint ? 'hidden' : 'block'}`}>
                     <DialogHeader>
-                        <DialogTitle className="font-bold">Add Video</DialogTitle>
+                        <DialogTitle className="font-bold flex items-center">
+                            <FcVideoCall className="text-[28px] mr-2"/>
+                            Add Video
+                        </DialogTitle>
                         <DialogDescription>Choose a video from your device or paste a URL</DialogDescription>
                         <DialogClose asChild onClick={() => handleDialogCloseState()}>
                             <button aria-label="Close" className="absolute top-1 right-4 font-bold text-[25px] text-red-600">
@@ -97,9 +105,12 @@ export default function AddVideo() {
                         </DialogClose>
                     </DialogHeader>
 
-                    <div className="grid gap-4 py-2 mb-3">
+                    <div className="grid gap-1 py-2 mt-3 mb-3">
                         <div className="grid gap-2">
-                            <h4 className="font-medium">Upload from Device</h4>
+                            <h4 className="font-medium flex items-center">
+                            <FcSmartphoneTablet className="text-[25px] mt-[3px] mr-2"/>
+                            Upload from Device
+                            </h4>
                             <p className="text-sm text-muted-foreground">
                                 Select a video file from your local device
                             </p>
@@ -118,7 +129,10 @@ export default function AddVideo() {
                         </div>
 
                         <div className="grid gap-2">
-                            <h4 className="font-medium">Paste URL</h4>
+                            <h4 className="font-medium flex items-center">
+                            <FcLink className="text-[25px] mt-[3px] mr-2"/>
+                            Paste URL
+                            </h4>
                             <p className="text-sm text-muted-foreground">
                                 Enter the URL of a video
                             </p>
@@ -142,7 +156,10 @@ export default function AddVideo() {
                                     <LoadingState setWidth="28" /> Please hold on while we adding your video..
                                 </span>
                             ) : (
+                            <span className="flex items-center">
+                            <FcUpload className="text-[28px] mr-2"/>
                                 <span>Add Video</span>
+                            </span>
                             )}
                         </Button>
                     </DialogFooter>

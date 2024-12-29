@@ -18,6 +18,10 @@ import LoadingState from "../ui/LoadingState";
 
 // ICONS
 import { FcPicture } from "react-icons/fc";
+import { FcAddImage } from "react-icons/fc";
+import { FcLink } from "react-icons/fc";
+import { FcSmartphoneTablet } from "react-icons/fc";
+import { FcUpload } from "react-icons/fc";
 
 // STORES
 import { useTools } from "@/stores";
@@ -73,7 +77,10 @@ export default function AddImage() {
             <DialogTrigger onClick={() => setIsDialogOpen(true)}><Button variant="outline"><FcPicture className="!size-5" /></Button></DialogTrigger>
             <DialogContent className="[&>button]:hidden">
                 <DialogHeader>
-                    <DialogTitle className="font-bold">Add Image</DialogTitle>
+                    <DialogTitle className="font-bold flex items-center">
+                        <FcAddImage className="w-[28px] text-[28px] mr-2" />
+                        Add Image
+                    </DialogTitle>
                     <DialogDescription>Choose an image from your device or paste a URL</DialogDescription>
                     <DialogClose asChild onClick={() => handleDialogCloseState()}>
                         <button aria-label="Close" className="absolute top-1 right-4 font-bold text-[25px] text-red-600">
@@ -82,9 +89,12 @@ export default function AddImage() {
                     </DialogClose>
                 </DialogHeader>
 
-                <div className="grid gap-4 py-2">
+                <div className="grid gap-1 py-2">
                     <div className="grid gap-2">
-                        <h4 className="font-medium">Upload from Device</h4>
+                        <h4 className="font-medium flex items-center">
+                            <FcSmartphoneTablet className="text-[25px] mt-[3px] mr-2" />
+                            Upload from Device
+                        </h4>
                         <p className="text-sm text-muted-foreground">
                             Select an image file from your local device
                         </p>
@@ -103,7 +113,10 @@ export default function AddImage() {
                     </div>
 
                     <div className="grid gap-2">
-                        <h4 className="font-medium">Paste URL</h4>
+                        <h4 className="font-medium flex items-center">
+                            <FcLink className="text-[25px] mt-[3px] mr-2" />
+                            Paste URL
+                        </h4>
                         <p className="text-sm text-muted-foreground">
                             Enter the URL of an image
                         </p>
@@ -125,7 +138,10 @@ export default function AddImage() {
                                 <LoadingState setWidth="28" /> Please hold on while we adding your image..
                             </span>
                         ) : (
-                            <span>Add Image</span>
+                            <span className="flex items-center">
+                                <FcUpload className="text-[28px] mr-2" />
+                                <span>Add Video</span>
+                            </span>
                         )}
                     </Button>
                 </DialogFooter>
