@@ -28,6 +28,7 @@ const useTools = create<useTools_interface>((set) => ({
         fill: '', 
         stroke: "",
         strokeWidth: 0,
+        circleSize: 0,
     },
     setCircleOptions: (state) => set({ circleOptions: state }),
     addingCircle: false,
@@ -40,6 +41,18 @@ const useTools = create<useTools_interface>((set) => ({
     // Handle Vertical Line
     addVerticalLine: false,
     setAddVerticalLine: (state) => set({ addVerticalLine: state }),
+
+    // Handle Add Image
+    addImg: false,
+    imgUrl: '',
+    setImgUrl: (state) => set({ imgUrl: state }),
+    setAddImg: (state) => set({ addImg: state }),
+
+    // Handle Add Video
+    addVideo: false,
+    videoUrl: '',  
+    setVideoUrl: (state) => set({ videoUrl: state }),
+    setAddVideo: (state) => set({ addVideo: state }),
 }))
 
 export default useTools;

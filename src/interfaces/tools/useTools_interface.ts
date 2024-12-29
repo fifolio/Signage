@@ -25,8 +25,9 @@ interface useTools_interface {
         fill: string,
         stroke: string,
         strokeWidth: number,
+        circleSize: number,
     },
-    setCircleOptions: (state: { fill: string, stroke: string, strokeWidth: number}) => void,
+    setCircleOptions: (state: { fill: string, stroke: string, strokeWidth: number, circleSize: number}) => void,
     addingCircle: boolean,
     setAddingCircle: (state: boolean) => void,
 
@@ -37,6 +38,19 @@ interface useTools_interface {
     // Add Vertical Line
     addVerticalLine: boolean,
     setAddVerticalLine: (state: boolean) => void,
+
+     // Add Image
+     addImg: boolean,
+     imgUrl: string,
+     setImgUrl: (state: string) => void,
+     setAddImg: (state: boolean) => void,
+
+     // Add Video
+    addVideo: boolean,
+    videoUrl: string,
+    setVideoUrl: (state: string) => void,
+    setAddVideo: (state: boolean) => void,
+
 }
 
 export default useTools_interface

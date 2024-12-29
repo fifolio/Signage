@@ -1,11 +1,17 @@
 // UI
 import { Footer, Navbar } from "@/components/common";
 import { Canvas, Manage, Tools } from "@/components";
+import { ScrollArea } from "@/components/ui/scroll-area"
 
 export default function Dashboard() {
+
+    // get current window measurements
+    const height = window.innerHeight - 90;
+    const width = window.innerWidth - 370;
+
+
     return (
         <>
-
             {/* HEADER SECTION */}
             <header className="fixed w-full">
                 {/* NAVBAR */}
@@ -23,9 +29,9 @@ export default function Dashboard() {
                 </div>
 
                 {/* CANVAS SECTION */}
-                <div className="bg-transparent min-h-screen w-full pt-[55px]">
+                <ScrollArea style={{ height: height, maxWidth: width, }} className={`mt-[52.5px]`}>
                     <Canvas />
-                </div>
+                </ScrollArea>
 
                 {/* MANAGE SECTION */}
                 <div className="hidden md:block bg-white h-screen min-w-[290px] pt-[55px] border-l-[1px] border-gray-200">

@@ -1,19 +1,19 @@
-import { useEffect, useRef } from 'react';
-import {
-  Textbox,
-  Canvas as FabricCanvas,
-  Rect,
-  Circle,
-  Line
-} from 'fabric';
+import { useEffect, useRef, useState } from 'react';
+import Konva from 'konva';
 
 // STORES
-import useTools from '@/stores/tools/useTools';
-import useCanvasStore from '@/stores/canvasStore/useCanvasStore';
+import { useTools } from '@/stores';
 
 export default function Canvas() {
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const canvasInstance = useRef<FabricCanvas | null>(null);
+
+  const [isCanvasReady, setIsCanvasReady] = useState(false);
+
+  // Refs for stage and layer
+  const stageRef = useRef<Konva.Stage | null>(null);
+  const layerRef = useRef<Konva.Layer | null>(null);
+
+  // State to track the selected object
+  const [selectedObject, setSelectedObject] = useState<Konva.Shape | null>(null);
 
   const {
     // Add Text
@@ -23,13 +23,13 @@ export default function Canvas() {
 
     // Add Square
     addingSquare,
-    setAddingSquare,
     squareOptions,
+    setAddingSquare,
 
     // Add Circle
     addingCircle,
-    setAddingCircle,
     circleOptions,
+    setAddingCircle,
 
     // Add Horizontal Line
     addHorizontalLine,
@@ -38,185 +38,397 @@ export default function Canvas() {
     // Add Vertical Line
     addVerticalLine,
     setAddVerticalLine,
+
+    // Add Img
+    addImg,
+    imgUrl,
+    setAddImg,
+    setImgUrl,
+
+    // Add Video
+    addVideo,
+    videoUrl,
+    setAddVideo,
+    setVideoUrl,
   } = useTools();
 
-
-  // Update the canvas store with the current canvas data
-  const { setJsonData } = useCanvasStore();
-
+  // Initialize Konva stage and layer
   useEffect(() => {
-    if (canvasRef.current) {
-      // Dispose of the existing canvas instance if it exists
-      if (canvasInstance.current) {
-        canvasInstance.current.dispose();
-      }
+    const stage = new Konva.Stage({
+      container: 'container',
+      width: 1920,
+      height: 1080,
+    });
+    const layer = new Konva.Layer();
 
-      // Initialize the canvas
-      const dpr = window.devicePixelRatio || 1;
-      const canvas = new FabricCanvas(canvasRef.current);
-
-      // Set canvas dimensions and scaling
-      canvas.setWidth(canvasRef.current.offsetWidth * dpr);
-      canvas.setHeight(canvasRef.current.offsetHeight * dpr);
-      canvas.contextContainer.scale(dpr, dpr);
-
-      canvasInstance.current = canvas;
-
-      // Add double-click event for text editing
-      canvas.on('mouse:dblclick', () => {
-        const activeObject = canvas.getActiveObject();
-        if (activeObject && activeObject.type === 'textbox') {
-          activeObject.set({ editable: true });
-          canvas.renderAll();
-        }
+    // Add a pointer cursor to the every shape on the layer
+    layer.on('mouseover', (e) => {
+      const shape = e.target;
+      document.body.style.cursor = 'pointer';
+      shape.on('mouseout', () => {
+        document.body.style.cursor = 'default';
       });
+    });
 
-      // Add "Delete" key functionality
-      const handleKeyDown = (e: KeyboardEvent) => {
-        if (e.key === 'Delete') {
-          const activeObject = canvas.getActiveObject();
-          if (activeObject) {
-            canvas.remove(activeObject);
-          }
-        }
-      };
+    // Add layer to the stage
+    stage.add(layer);
 
-      window.addEventListener('keydown', handleKeyDown);
+    // Save stage and layer in refs
+    stageRef.current = stage;
+    layerRef.current = layer;
 
-       // Update JSON data whenever the canvas changes
-       const updateJsonData = () => {
-        const json = canvas.toJSON();
-        const jsonString = JSON.stringify(json);
-        setJsonData(jsonString);
-      };
-
-      canvas.on('object:added', updateJsonData);
-      canvas.on('object:modified', updateJsonData);
-      canvas.on('object:removed', updateJsonData);
-
-      // Cleanup function
-      return () => {
-        canvas.dispose();
-        window.removeEventListener('keydown', handleKeyDown);
-        canvas.off('object:added', updateJsonData);
-        canvas.off('object:modified', updateJsonData);
-        canvas.off('object:removed', updateJsonData);
-      };
-    }
+    setIsCanvasReady(true);
   }, []);
-
-
 
   // Handle Adding Text
   useEffect(() => {
-    if (handleAddText && canvasInstance.current) {
-      const text = new Textbox(textOptions.text, {
-        left: 50,
-        top: 50,
+    if (isCanvasReady && handleAddText) {
+      const layer = layerRef.current;
+
+      if (!layer) return;
+
+      // Create a new text element
+      const text = new Konva.Text({
+        x: 50,
+        y: 50,
+        draggable: true,
+        text: textOptions.text,
+        fontSize: textOptions.fontSize,
         fill: textOptions.color,
-        fontSize: textOptions.fontSize * window.devicePixelRatio,
-        editable: true,
-        width: 300,
-        wordWrap: false,
       });
 
-      canvasInstance.current.add(text);
-      canvasInstance.current.renderAll();
+      // Add the text to the layer
+      layer.add(text);
+      layer.draw(); // Redraw the layer to reflect changes
 
+      // Reset the handleAddText flag
       setHandleAddText(false);
     }
-  }, [handleAddText, textOptions, setHandleAddText]);
+  }, [textOptions, handleAddText, setHandleAddText, isCanvasReady]);
 
-
-
-  // Handle Adding Square
+  // Handle Adding Square 
   useEffect(() => {
-    if (addingSquare && canvasInstance.current) {
-      const square = new Rect({
-        left: 100,
-        top: 100,
-        fill: squareOptions.fill === "null" ? null : squareOptions.fill,
+    if (isCanvasReady && addingSquare) {
+      const layer = layerRef.current;
+
+      if (!layer) return;
+
+      // Create a new square element
+      const square = new Konva.Rect({
+        x: 50,
+        y: 50,
+        draggable: true,
         stroke: squareOptions.stroke,
-        hasBorders: true,
         strokeWidth: squareOptions.strokeWidth,
-        strokeUniform: true,
         width: squareOptions.width,
         height: squareOptions.height,
+        fill: squareOptions.fill === "null" ? 'transparent' : squareOptions.fill
       });
 
-      canvasInstance.current.add(square);
-      canvasInstance.current.renderAll();
+      // Add the square to the layer
+      layer.add(square);
+      layer.draw(); // Redraw the layer to reflect changes
 
+      // Reset the setAddingSquare flag
       setAddingSquare(false);
     }
-  }, [squareOptions, addingSquare, setAddingSquare]);
-
-
+  }, [addingSquare, squareOptions, setAddingSquare, isCanvasReady]);
 
   // Handle Adding Circle
   useEffect(() => {
-    if (addingCircle && canvasInstance.current) {
-      const circle = new Circle({
-        left: 100,
-        top: 100,
-        fill: circleOptions.fill === "null" ? null : circleOptions.fill,
+    if (isCanvasReady && addingCircle) {
+      const layer = layerRef.current;
+
+      if (!layer) return;
+
+      // Create a new circle element
+      const circle = new Konva.Circle({
+        x: 50,
+        y: 50,
         radius: 50,
+        draggable: true,
+        width: circleOptions.circleSize,
+        height: circleOptions.circleSize,
         stroke: circleOptions.stroke,
-        hasBorders: true,
         strokeWidth: circleOptions.strokeWidth,
-        strokeUniform: true,
+        fill: circleOptions.fill === "null" ? 'transparent' : circleOptions.fill,
       });
 
-      canvasInstance.current.add(circle);
-      canvasInstance.current.renderAll();
+      // Add the circle to the layer
+      layer.add(circle);
+      layer.draw(); // Redraw the layer to reflect changes
 
+      // Reset the setAddingCircle flag
       setAddingCircle(false);
     }
-  }, [circleOptions, addingCircle, setAddingCircle]);
-
-
+  }, [addingCircle, circleOptions, setAddingCircle, isCanvasReady]);
 
   // Handle Adding Horizontal Line
   useEffect(() => {
-    if (addHorizontalLine && canvasInstance.current) {
-      const hLine = new Line([50, 100, 300, 100], {
-        left: 100, // Left position
-        top: 100,  // Top position
+    if (isCanvasReady && addHorizontalLine) {
+      const layer = layerRef.current;
+
+      if (!layer) return;
+
+      // Create a new Horizontal Line element
+      const HLine = new Konva.Line({
+        points: [20, 50, 220, 50],
+        x: 50,
+        y: 50,
+        draggable: true,
         stroke: 'black',
-        strokeWidth: 1,
-        strokeUniform: true,
+        strokeWidth: 2,
+        // width: 
       });
 
-      canvasInstance.current.add(hLine);
-      canvasInstance.current.renderAll();
+      // Add the Horizontal Line to the layer
+      layer.add(HLine);
+      layer.draw(); // Redraw the layer to reflect changes
 
+      // Reset the setAddHorizontalLine flag
       setAddHorizontalLine(false);
     }
-  }, [addHorizontalLine, setAddHorizontalLine]);
-
-
+  }, [addHorizontalLine, setAddHorizontalLine, isCanvasReady]);
 
   // Handle Adding Vertical Line
   useEffect(() => {
-    if (addVerticalLine && canvasInstance.current) {
-      const vLine = new Line([150, 50, 150, 300], {
-        left: 100, // Left position
-        top: 100,  // Top position
+    if (isCanvasReady && addVerticalLine) {
+      const layer = layerRef.current;
+
+      if (!layer) return;
+
+      // Create a new Vertical Line element
+      const VLine = new Konva.Line({
+        points: [20, 220, 20, 50],
+        x: 50,
+        y: 50,
+        draggable: true,
         stroke: 'black',
-        strokeWidth: 1,
-        strokeUniform: true,
+        strokeWidth: 2,
+        // width:
       });
 
-      canvasInstance.current.add(vLine);
-      canvasInstance.current.renderAll();
+      // Add the Vertical Line to the layer
+      layer.add(VLine);
+      layer.draw(); // Redraw the layer to reflect changes
 
+      // Reset the setAddVerticallLine flag
       setAddVerticalLine(false);
     }
-  }, [addVerticalLine, setAddVerticalLine]);
+  }, [addVerticalLine, setAddVerticalLine, isCanvasReady]);
+
+  // Handle Adding Images 
+  useEffect(() => {
+    if (isCanvasReady && addImg) {
+      const layer = layerRef.current;
+
+      if (!layer) return;
+
+      // Create a new Image element
+      const image = new Image();
+      image.src = `${imgUrl}`;
+      image.onload = () => {
+        const myimg = new Konva.Image({
+          x: 50,
+          y: 50,
+          image: image,
+          draggable: true,
+          width: image.width,
+          height: image.height,
+        });
+
+        // Add a transformer for resizing
+        const transformer = new Konva.Transformer({
+          nodes: [myimg],
+          enabledAnchors: ['top-left', 'top-right', 'bottom-left', 'bottom-right'],
+          anchorSize: 8,
+          borderDash: [4, 4], // Optional: for styling
+        });
+
+        // Add click event to the image for selecting it
+        myimg.on('click', () => {
+          layer.add(transformer);
+          transformer.nodes([myimg]);
+          setSelectedObject(myimg); // Set the selected object
+          layer.draw();
+        });
+
+
+        // Handle deselection
+        stageRef.current?.on('click', (e) => {
+          if (e.target === stageRef.current) {
+            transformer.detach(); // Detach the transformer when clicking outside
+            layer.draw();
+          } else if (e.target !== myimg) {
+            transformer.detach(); // Detach if clicking on any other object
+            layer.draw();
+          }
+        });
+
+
+        // Add the image and transformer to the layer
+        layer.add(myimg);
+        layer.add(transformer);
+        layer.draw(); // Redraw the layer to reflect changes
+
+        // Reset the setAddImg flag
+        setTimeout(() => {
+          setAddImg(false);
+          setImgUrl('');
+        }, 2000);
+      };
+
+    }
+  }, [addImg, imgUrl, setAddImg, setImgUrl, isCanvasReady]);
+
+  // Handle Adding Videos 
+  useEffect(() => {
+    if (isCanvasReady && addVideo) {
+      const layer = layerRef.current;
+
+      if (!layer) return;
+
+      // Create a new Video element
+      const video = document.createElement('video');
+      video.src = `${videoUrl}`;
+      video.autoplay = true;
+      video.loop = true;
+      // video.muted = true;
+      video.onloadeddata = () => {
+        const myVideo = new Konva.Image({
+          x: 50,
+          y: 50,
+          image: video,
+          draggable: true,
+          width: 500,
+          height: 300,
+        });
+
+        // Add a transformer for resizing
+        const transformer = new Konva.Transformer({
+          nodes: [myVideo],
+          enabledAnchors: ['top-left', 'top-right', 'bottom-left', 'bottom-right'],
+          anchorSize: 8,
+          borderDash: [4, 4], // Optional: for styling
+        });
+
+        // Add click event to the video for selecting it and toggling play/pause
+        myVideo.on('click', () => {
+          if (video.paused) {
+            video.play();
+          } else {
+            video.pause();
+          }
+          layer.add(transformer);
+          transformer.nodes([myVideo]);
+          setSelectedObject(myVideo); // Set the selected object
+          layer.draw();
+        });
+
+        // Handle deselection
+        stageRef.current?.on('click', (e) => {
+          if (e.target === stageRef.current) {
+            transformer.detach(); // Detach the transformer when clicking outside
+            layer.draw();
+          } else if (e.target !== myVideo) {
+            transformer.detach(); // Detach if clicking on any other object
+            layer.draw();
+          }
+        });
+
+        // Function to update the video frame
+        const updateVideoFrame = () => {
+          myVideo.image(video);
+          layer.batchDraw();
+          requestAnimationFrame(updateVideoFrame);
+        };
+
+        // Start updating the video frame
+        updateVideoFrame();
+
+        // Add the video and transformer to the layer
+        layer.add(myVideo);
+        layer.add(transformer);
+        layer.draw(); // Redraw the layer to reflect changes
+
+        // Reset the setAddVideo flag
+        setTimeout(() => {
+          setAddVideo(false);
+          setVideoUrl('');
+        }, 2000);
+      };
+
+    }
+  }, [addVideo, videoUrl, setAddVideo, setVideoUrl, isCanvasReady]);
+
+
+  // Global Selection Handling
+  useEffect(() => {
+    const stage = stageRef.current;
+    const layer = layerRef.current;
+
+    if (!stage || !layer) return;
+
+    const transformer = layer.findOne('Transformer') || new Konva.Transformer();
+    layer.add(transformer as Konva.Transformer);
+
+    const handleStageClick = (e: Konva.KonvaEventObject<MouseEvent>) => {
+      if (e.target === stage) {
+        // Clicked on the stage (empty area), deselect all
+        (transformer as Konva.Transformer).detach();
+        setSelectedObject(null);
+      } else if (e.target !== selectedObject) {
+        // Clicked on a new object
+        (transformer as Konva.Transformer).nodes([e.target]);
+        setSelectedObject(e.target as Konva.Shape);
+      }
+      layer.draw();
+    };
+
+    stage.on('click', handleStageClick);
+
+    return () => {
+      stage.off('click', handleStageClick);
+    };
+  }, [selectedObject]);
+
+  // Listen for the 'Delete' key to delete the selected object
+useEffect(() => {
+
+  const handleKeyDown = (e: KeyboardEvent) => {
+    if (e.key === 'Delete' && selectedObject) {
+      const layer = layerRef.current;
+      if (!layer) return;
+
+      // Remove the selected object
+      selectedObject.destroy();
+
+      // Clear the selected object reference
+      setSelectedObject(null);
+
+      // Find and detach the transformer
+      const transformer = layer.findOne('Transformer');
+      if (transformer) {
+        (transformer as Konva.Transformer).detach();  // Detach transformer to prevent issues with subsequent selections
+      }
+
+      layer.draw(); // Redraw the layer to reflect changes
+    }
+  };
+
+  window.addEventListener('keydown', handleKeyDown);
+
+  return () => {
+    window.removeEventListener('keydown', handleKeyDown);
+  };
+}, [selectedObject]);
+
+
 
   return (
-    <div className="bg-white my-2 mx-auto p-2 border-[1px] border-gray-200 rounded-md min-h-[500px] w-[970px]">
-      <canvas ref={canvasRef} className="rounded-md min-w-[950px] min-h-[480px] border-[1px] border-gray-400" />
+    <div className="bg-white my-2 mx-auto pr-5 border-[1px] border-gray-200 rounded-md min-h-[500px] w-[970px]">
+      {/* Init canvas stage */}
+      <div id="container" className="rounded-md min-w-[950px] min-h-[480px]"></div>
     </div>
   );
 }

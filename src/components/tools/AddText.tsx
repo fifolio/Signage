@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react"
 
 // UI
@@ -17,12 +16,11 @@ import { Slider } from "@/components/ui/slider"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 
-
 // ICONS
 import { IoText } from "react-icons/io5";
+
 // STORES
 import useTools from "@/stores/tools/useTools";
-
 
 export default function AddText() {
 
@@ -105,7 +103,7 @@ export default function AddText() {
                 <Separator />
 
                 <Button className="w-full" onClick={() => setHandleAddText(true)}
-                    disabled={text == "" || text.length <= 0}>Add text</Button>
+                    disabled={text == "" || text.length <= 0 || text.trim().length === 0}>Add text</Button>
             </DialogContent>
         </Dialog>
     )

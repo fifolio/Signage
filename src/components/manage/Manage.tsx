@@ -8,7 +8,7 @@ import Displays from "../displays/Displays";
 
 export default function Manage() {
     return (
-        <>
+        <div>
             {/* PREVIEW AREA */}
             <Preview />
 
@@ -16,6 +16,6 @@ export default function Manage() {
 
             {/* DISPLAY MANAGE AREA */}
             <Displays />
-        </>
+        </div>
     )
 }
