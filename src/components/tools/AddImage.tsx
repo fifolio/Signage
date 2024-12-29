@@ -140,7 +140,7 @@ export default function AddImage() {
                         ) : (
                             <span className="flex items-center">
                                 <FcUpload className="text-[28px] mr-2" />
-                                <span>Add Video</span>
+                                <span>Add Image</span>
                             </span>
                         )}
                     </Button>

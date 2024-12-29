@@ -1,6 +1,5 @@
 // UI
 import { Button } from "../ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area"
 import {
     Dialog,
     DialogContent,
@@ -16,16 +15,15 @@ import { FcServices } from "react-icons/fc";
 
 export default function Displays() {
     return (
-        <div className="mt-6 mb-6 px-3">
+        <div className="mt-3 mb-3 px-3">
 
             {/* TITLE + Manage btn */}
             <div className="flex justify-between items-center mb-6">
-                <h6 className="font-semibold">Displays</h6>
                 <Dialog>
                     <DialogTrigger>
-                        <Button variant="secondary" className="flex justify-between items-center border-[1px] border-gray-300">
-                            <FcServices className="!size-5" />
-                            <span>Manage</span>
+                        <Button variant="outline" className="flex justify-center items-center border-[1px] border-gray-300 min-w-[265px]">
+                            <FcServices className="!size-5"  />
+                            <span>Manage Displays</span>
                         </Button>
                     </DialogTrigger>
                     <DialogContent>
@@ -39,14 +37,6 @@ export default function Displays() {
                     </DialogContent>
                 </Dialog>
             </div>
-
-            {/* DISPLAYS BOX */}
-            <ScrollArea className="px-3 border-[1px] border-gray-200 max-w-[300px] h-[150px] max-h-[150px] rounded-md">
-                <span id="noDisplay">
-                    <div id="noPreview" className="flex justify-center items-center h-[140px] text-gray-500 text-[15px] m-0">No displays connected</div>
-                </span>
-            </ScrollArea>
-
         </div>
     )
 }
