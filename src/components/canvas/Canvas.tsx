@@ -3,9 +3,9 @@ import Konva from 'konva';
 
 // STORES
 import { useTools } from '@/stores';
+import { useCanvasStore } from '@/stores';
 
 export default function Canvas() {
-
   const [isCanvasReady, setIsCanvasReady] = useState(false);
 
   // Refs for stage and layer
@@ -14,6 +14,9 @@ export default function Canvas() {
 
   // State to track the selected object
   const [selectedObject, setSelectedObject] = useState<Konva.Shape | null>(null);
+
+  // State to store the JSON data of the canvas
+  const { setJsonData } = useCanvasStore();
 
   const {
     // Add Text
@@ -80,6 +83,25 @@ export default function Canvas() {
     setIsCanvasReady(true);
   }, []);
 
+  // Function to export JSON data
+  const exportJsonData = () => {
+    if (stageRef.current) {
+      const jsonData = stageRef.current.toJSON();
+      setJsonData(jsonData);
+    }
+  };
+
+  // Call exportJsonData whenever stageRef or layerRef changes
+  useEffect(() => {
+    exportJsonData();
+  }, [stageRef.current, layerRef]);
+
+  // Function to add event listeners to update JSON data on transform and dragmove
+  const addEventListeners = (node: Konva.Node) => {
+    node.on('transform', exportJsonData);
+    node.on('dragmove', exportJsonData);
+  };
+
   // Handle Adding Text
   useEffect(() => {
     if (isCanvasReady && handleAddText) {
@@ -101,12 +123,18 @@ export default function Canvas() {
       layer.add(text);
       layer.draw(); // Redraw the layer to reflect changes
 
+      // Add event listeners to update JSON data
+      addEventListeners(text);
+
+      // Update JSON data
+      exportJsonData();
+
       // Reset the handleAddText flag
       setHandleAddText(false);
     }
   }, [textOptions, handleAddText, setHandleAddText, isCanvasReady]);
 
-  // Handle Adding Square 
+  // Handle Adding Square
   useEffect(() => {
     if (isCanvasReady && addingSquare) {
       const layer = layerRef.current;
@@ -128,6 +156,12 @@ export default function Canvas() {
       // Add the square to the layer
       layer.add(square);
       layer.draw(); // Redraw the layer to reflect changes
+
+      // Add event listeners to update JSON data
+      addEventListeners(square);
+
+      // Update JSON data
+      exportJsonData();
 
       // Reset the setAddingSquare flag
       setAddingSquare(false);
@@ -158,6 +192,12 @@ export default function Canvas() {
       layer.add(circle);
       layer.draw(); // Redraw the layer to reflect changes
 
+      // Add event listeners to update JSON data
+      addEventListeners(circle);
+
+      // Update JSON data
+      exportJsonData();
+
       // Reset the setAddingCircle flag
       setAddingCircle(false);
     }
@@ -178,12 +218,17 @@ export default function Canvas() {
         draggable: true,
         stroke: 'black',
         strokeWidth: 2,
-        // width: 
       });
 
       // Add the Horizontal Line to the layer
       layer.add(HLine);
       layer.draw(); // Redraw the layer to reflect changes
+
+      // Add event listeners to update JSON data
+      addEventListeners(HLine);
+
+      // Update JSON data
+      exportJsonData();
 
       // Reset the setAddHorizontalLine flag
       setAddHorizontalLine(false);
@@ -205,19 +250,24 @@ export default function Canvas() {
         draggable: true,
         stroke: 'black',
         strokeWidth: 2,
-        // width:
       });
 
       // Add the Vertical Line to the layer
       layer.add(VLine);
       layer.draw(); // Redraw the layer to reflect changes
 
-      // Reset the setAddVerticallLine flag
+      // Add event listeners to update JSON data
+      addEventListeners(VLine);
+
+      // Update JSON data
+      exportJsonData();
+
+      // Reset the setAddVerticalLine flag
       setAddVerticalLine(false);
     }
   }, [addVerticalLine, setAddVerticalLine, isCanvasReady]);
 
-  // Handle Adding Images 
+  // Handle Adding Images
   useEffect(() => {
     if (isCanvasReady && addImg) {
       const layer = layerRef.current;
@@ -237,6 +287,9 @@ export default function Canvas() {
           height: image.height,
         });
 
+        // Add the image URL as a custom attribute
+        myimg.setAttr('imageUrl', imgUrl);
+
         // Add a transformer for resizing
         const transformer = new Konva.Transformer({
           nodes: [myimg],
@@ -253,7 +306,6 @@ export default function Canvas() {
           layer.draw();
         });
 
-
         // Handle deselection
         stageRef.current?.on('click', (e) => {
           if (e.target === stageRef.current) {
@@ -265,11 +317,16 @@ export default function Canvas() {
           }
         });
 
-
         // Add the image and transformer to the layer
         layer.add(myimg);
         layer.add(transformer);
         layer.draw(); // Redraw the layer to reflect changes
+
+        // Add event listeners to update JSON data
+        addEventListeners(myimg);
+
+        // Update JSON data
+        exportJsonData();
 
         // Reset the setAddImg flag
         setTimeout(() => {
@@ -277,11 +334,10 @@ export default function Canvas() {
           setImgUrl('');
         }, 2000);
       };
-
     }
   }, [addImg, imgUrl, setAddImg, setImgUrl, isCanvasReady]);
 
-  // Handle Adding Videos 
+  // Handle Adding Videos
   useEffect(() => {
     if (isCanvasReady && addVideo) {
       const layer = layerRef.current;
@@ -303,6 +359,9 @@ export default function Canvas() {
           width: 500,
           height: 300,
         });
+
+        // Add the video URL as a custom attribute
+        myVideo.setAttr('videoUrl', videoUrl);
 
         // Add a transformer for resizing
         const transformer = new Konva.Transformer({
@@ -351,16 +410,20 @@ export default function Canvas() {
         layer.add(transformer);
         layer.draw(); // Redraw the layer to reflect changes
 
+        // Add event listeners to update JSON data
+        addEventListeners(myVideo);
+
+        // Update JSON data
+        exportJsonData();
+
         // Reset the setAddVideo flag
         setTimeout(() => {
           setAddVideo(false);
           setVideoUrl('');
         }, 2000);
       };
-
     }
   }, [addVideo, videoUrl, setAddVideo, setVideoUrl, isCanvasReady]);
-
 
   // Global Selection Handling
   useEffect(() => {
@@ -393,37 +456,37 @@ export default function Canvas() {
   }, [selectedObject]);
 
   // Listen for the 'Delete' key to delete the selected object
-useEffect(() => {
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Delete' && selectedObject) {
+        const layer = layerRef.current;
+        if (!layer) return;
 
-  const handleKeyDown = (e: KeyboardEvent) => {
-    if (e.key === 'Delete' && selectedObject) {
-      const layer = layerRef.current;
-      if (!layer) return;
+        // Remove the selected object
+        selectedObject.destroy();
 
-      // Remove the selected object
-      selectedObject.destroy();
+        // Clear the selected object reference
+        setSelectedObject(null);
 
-      // Clear the selected object reference
-      setSelectedObject(null);
+        // Find and detach the transformer
+        const transformer = layer.findOne('Transformer');
+        if (transformer) {
+          (transformer as Konva.Transformer).detach();  // Detach transformer to prevent issues with subsequent selections
+        }
 
-      // Find and detach the transformer
-      const transformer = layer.findOne('Transformer');
-      if (transformer) {
-        (transformer as Konva.Transformer).detach();  // Detach transformer to prevent issues with subsequent selections
+        layer.draw(); // Redraw the layer to reflect changes
+
+        // Update JSON data
+        exportJsonData();
       }
+    };
 
-      layer.draw(); // Redraw the layer to reflect changes
-    }
-  };
+    window.addEventListener('keydown', handleKeyDown);
 
-  window.addEventListener('keydown', handleKeyDown);
-
-  return () => {
-    window.removeEventListener('keydown', handleKeyDown);
-  };
-}, [selectedObject]);
-
-
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [selectedObject]);
 
   return (
     <div className="bg-white my-2 mx-auto pr-5 border-[1px] border-gray-200 rounded-md min-h-[500px] w-[970px]">
