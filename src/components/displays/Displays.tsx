@@ -15,10 +15,10 @@ import { FcServices } from "react-icons/fc";
 
 export default function Displays() {
     return (
-        <div className="mt-3 mb-3 px-3">
+        <div className="mt-3 mb-12 px-3">
 
             {/* TITLE + Manage btn */}
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex justify-between items-center">
                 <Dialog>
                     <DialogTrigger>
                         <Button variant="outline" className="flex justify-center items-center border-[1px] border-gray-300 min-w-[265px]">

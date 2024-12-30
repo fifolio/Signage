@@ -8,14 +8,16 @@ import Displays from "../displays/Displays";
 
 export default function Manage() {
     return (
-        <div>
+        <div className="flex flex-col justify-between w-full h-full">
             {/* PREVIEW AREA */}
             <Preview />
 
-            <Separator />
+            <div>
+                <Separator />
 
-            {/* DISPLAY MANAGE AREA */}
-            <Displays />
+                {/* DISPLAY MANAGE AREA */}
+                <Displays />
+            </div>
         </div>
     )
 }

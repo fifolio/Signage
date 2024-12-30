@@ -33,7 +33,7 @@ export default function Menu() {
                         Create new <MenubarShortcut><FcFile className="size-4" /></MenubarShortcut>
                     </MenubarItem>
                     <MenubarItem className="cursor-pointer hover:font-semibold">
-                        open saved file <MenubarShortcut><FcOpenedFolder className="size-4" /></MenubarShortcut>
+                        open file <MenubarShortcut><FcOpenedFolder className="size-4" /></MenubarShortcut>
                     </MenubarItem>
                     <MenubarSeparator className="flex md:hidden" />
                     <MenubarItem className="flex md:hidden cursor-pointer hover:font-semibold">
