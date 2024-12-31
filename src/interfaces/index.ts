@@ -4,3 +4,4 @@ export type { default as useLivePreview_interface } from './livePreview/useLiveP
 export type { default as handleImgUpload_interface } from './helpers/uploadingMedia/handleImgUpload_interface'
 export type { default as handleVideoUpload_interface } from './helpers/uploadingMedia/handleVideoUpload_interface'
 export type { default as useIsSaving_interface } from './footer/useIsSaving_interface'
+export type { default as useIsUserLoggedInState_interface } from './backend/useIsUserLoggedInState_interface'

@@ -23,7 +23,7 @@ export default async function handleImgUpload(
         // Upload image from device to Cloudinary and set the image URL and add image to the editor
         const formData = new FormData();
         formData.append('file', uploadedImgFromDevice);
-        formData.append('upload_preset', `${import.meta.env.VITE_UPLOAD_PRESENT_KEY}`);
+        formData.append('upload_preset', `${import.meta.env.VITE_UPLOAD_PRESET_KEY}`);
 
         try {
             const response = await axios.post(

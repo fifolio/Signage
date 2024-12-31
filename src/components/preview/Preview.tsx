@@ -88,12 +88,8 @@ export default function Preview() {
       });
 
       stageRef.current = stage;
-
-      console.log('Recreated stage with JSON data: ', jsonData);
     }
   };
-
-console.log('jsonData =>', jsonData.length)
 
   return (
     <div className="mt-2 mb-3 px-3">

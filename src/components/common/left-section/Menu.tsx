@@ -16,9 +16,26 @@ import { FcOpenedFolder } from "react-icons/fc";
 import { FcInfo } from "react-icons/fc";
 import { FcSettings } from "react-icons/fc";
 import { FcUpload } from "react-icons/fc";
+import { FcLock } from "react-icons/fc";
+
+// SERVICES
+import { logout } from "@/backend/services/auth/logout";
+
 
 
 export default function Menu() {
+
+    // handle Logout func.
+    async function handleLogout() {
+        // setLogoutSpinner(true)
+        const res = await logout();
+        if (res) {
+            window.location.reload()
+        } else {
+            console.log('Can not logout! something went wrong while logging out!');
+        }
+    }
+
     return (
         <Menubar>
             <MenubarMenu>
@@ -45,6 +62,10 @@ export default function Menu() {
                     <MenubarSeparator />
                     <MenubarItem className="cursor-pointer hover:font-semibold">
                         help center <MenubarShortcut><FcInfo className="size-4" /></MenubarShortcut>
+                    </MenubarItem>
+                    <MenubarSeparator />
+                    <MenubarItem onClick={handleLogout} className="text-red-600 hover:!text-red-600 cursor-pointer hover:font-semibold">
+                        Logout <MenubarShortcut><FcLock className="size-4" /></MenubarShortcut>
                     </MenubarItem>
                 </MenubarContent>
             </MenubarMenu>

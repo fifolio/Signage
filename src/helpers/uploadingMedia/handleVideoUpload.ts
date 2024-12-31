@@ -22,7 +22,7 @@ export default async function handleVideoUpload(
         // Upload video from device to Cloudinary and set the video URL and add video to the editor
         const formData = new FormData();
         formData.append('file', uploadedVideoFromDevice);
-        formData.append('upload_preset', `${import.meta.env.VITE_UPLOAD_PRESENT_KEY}`);
+        formData.append('upload_preset', `${import.meta.env.VITE_UPLOAD_PRESET_KEY}`);
 
         try {
             const response = await axios.post(
