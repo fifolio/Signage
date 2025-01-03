@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 // SERVICES
@@ -6,10 +6,11 @@ import { checkSession } from './backend/services/auth/checkSession';
 
 // STORES
 import useIsUserLoggedInState from './stores/backend/useIsLoggedinState';
+import { useLoadingScreen } from './stores';
 
 // PAGES
-import { Dashboard } from './pages';   
-import { Auth } from './pages';   
+import { CTA, Dashboard } from './pages';
+import { Auth } from './pages';
 
 // UI
 import { LoadingState } from './components';
@@ -17,28 +18,16 @@ import { Toaster } from "@/components/ui/toaster"
 
 
 export default function App() {
+
+
+  // check and set if user is logged in
   const { isUserLoggedIn, setIsUserLoggedIn } = useIsUserLoggedInState();
-  const [sessionChecked, setSessionChecked] = useState(false);
+
+  // Loading screen
+  const { loadingScreen, setLoadingScreen } = useLoadingScreen();
 
   // Reference to the audio element
   const audioRef = useRef<HTMLAudioElement>(null);
-
-  // Check if there's an active session by calling the checkSession() and check it's returns
-  async function sessionCheck() {
-    try {
-      const response = await checkSession();
-      setIsUserLoggedIn(response);
-    } catch (error) {
-      console.error('Error checking session:', error);
-      setIsUserLoggedIn(false);
-    } finally {
-      setSessionChecked(true);
-    }
-  }
-
-  useEffect(() => {
-    sessionCheck()
-  }, []);
 
   // Play audio when user logs in
   useEffect(() => {
@@ -47,8 +36,26 @@ export default function App() {
     }
   }, [isUserLoggedIn]);
 
+  useEffect(() => {
+    const initializeSession = async () => {
+      setLoadingScreen(true);
+      try {
+        const res = await checkSession();
+        setIsUserLoggedIn(res === true && true);
+      } catch (error) {
+        console.error("Error checking session:", error);
+        setIsUserLoggedIn(false);
+      } finally {
+        setLoadingScreen(false);
+      }
+    };
+
+    initializeSession();
+  }, []);
+
+
   // loading indicator
-  if (!sessionChecked) {
+  if (loadingScreen) {
     return (
       <div className="flex justify-center items-center w-full h-screen">
         <LoadingState setWidth="50" />
@@ -59,10 +66,21 @@ export default function App() {
 
   return (
     <BrowserRouter>
-    <Toaster />
+      <Toaster />
 
       <Routes>
-        <Route index path="/" element={isUserLoggedIn ? <Dashboard /> : <Auth />} />
+        {isUserLoggedIn ? (
+          <>
+            <Route index path="/" element={<CTA />} />
+            <Route path="/:fileId" element={<Dashboard />} />
+          </>
+        ) : (
+          <>
+            <Route index path="/" element={<Auth />} />
+            <Route path="*" element={<Auth />} />
+          </>
+        )}
+
       </Routes>
 
       {/* Login Sound Effect */}

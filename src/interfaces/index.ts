@@ -5,3 +5,6 @@ export type { default as handleImgUpload_interface } from './helpers/uploadingMe
 export type { default as handleVideoUpload_interface } from './helpers/uploadingMedia/handleVideoUpload_interface'
 export type { default as useIsSaving_interface } from './footer/useIsSaving_interface'
 export type { default as useIsUserLoggedInState_interface } from './backend/useIsUserLoggedInState_interface'
+export type { default as useLoadingScreen_interface } from './ui/useLoadingScreen_interface'
+export type { default as fetchedWorkspaces_interface } from './cta/fetchedWorkspaces_interface'
+export type { default as searchData_interface } from './backend/searchData_interface'

@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 import tailwindcssAnimate from 'tailwindcss-animate';
+import tailwindcssTextShadow from 'tailwindcss-textshadow';
 
 export default {
   darkMode: ["class"],
@@ -9,6 +10,12 @@ export default {
   ],
   theme: {
     extend: {
+      textShadow: { 
+        'default': '0 2px 4px rgba(0, 0, 0, 0.10)', 
+        'md': '0 4px 6px rgba(0, 0, 0, 0.10)', 
+        'lg': '0 10px 15px rgba(0, 0, 0, 0.10)', 
+        'xl': '0 20px 25px rgba(0, 0, 0, 0.10)', 
+      },
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
@@ -58,5 +65,5 @@ export default {
       }
     }
   },
-  plugins: [tailwindcssAnimate],
+  plugins: [tailwindcssAnimate, tailwindcssTextShadow],
 };

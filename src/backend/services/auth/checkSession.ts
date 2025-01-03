@@ -3,6 +3,12 @@ import { account } from "@/backend/configs/configs"
 
 
 export async function checkSession() {
-    const results = await account.getSession('current')
-    return results ? true : false
+    const res = await account.getSession('current')
+        .then((res) => {
+            return res && true;
+        }).catch((err) => {
+            return err && false;
+        })
+
+    return res;
 }

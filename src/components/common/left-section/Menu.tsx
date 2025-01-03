@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 // UI
 import {
     Menubar,
@@ -32,7 +34,7 @@ export default function Menu() {
         if (res) {
             window.location.reload()
         } else {
-            console.log('Can not logout! something went wrong while logging out!');
+            console.log('Can not logout! something went wrong while logging out!, Please reload the page and try again.');
         }
     }
 
@@ -49,9 +51,11 @@ export default function Menu() {
                     <MenubarItem className="cursor-pointer hover:font-semibold">
                         Create new <MenubarShortcut><FcFile className="size-4" /></MenubarShortcut>
                     </MenubarItem>
-                    <MenubarItem className="cursor-pointer hover:font-semibold">
-                        open file <MenubarShortcut><FcOpenedFolder className="size-4" /></MenubarShortcut>
-                    </MenubarItem>
+                    <Link to="/">
+                        <MenubarItem className="cursor-pointer hover:font-semibold">
+                            open file <MenubarShortcut><FcOpenedFolder className="size-4" /></MenubarShortcut>
+                        </MenubarItem>
+                    </Link>
                     <MenubarSeparator className="flex md:hidden" />
                     <MenubarItem className="flex md:hidden cursor-pointer hover:font-semibold">
                         Sync updates <MenubarShortcut><FcUpload className="size-4" /></MenubarShortcut>
