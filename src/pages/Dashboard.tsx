@@ -9,6 +9,9 @@ export default function Dashboard() {
     const height = window.innerHeight - 90;
     const width = window.innerWidth - 370;
 
+    // Update Page title
+    document.title = "Signage Content Builder";
+
 
     return (
         <>

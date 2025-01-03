@@ -11,8 +11,8 @@ import { Button } from "../ui/button";
 // ICONS
 import { BiLogOut } from "react-icons/bi";
 
-// SERVICES
-import { logout } from "@/backend/services/auth/logout";
+// HELPERS
+import { handleLogout } from "@/helpers";
 
 export default function CTA_Header() {
 
@@ -44,9 +44,6 @@ export default function CTA_Header() {
       // Check if user is a First-time user
       const registrationTime = new Date(userData.registration);
       const currentTime = new Date();
-
-      console.log('userData.registration: ', userData.registration);
-      console.log('Current time: ', currentTime);
 
       // Determine if First-Time-User based on a threshold (e.g., 1 hour)
       const thresholdInMilliseconds = 60 * 60 * 1000; // 1 hour
@@ -81,13 +78,8 @@ export default function CTA_Header() {
   }, [userData]);
 
   // handle Logout func.
-  async function handleLogout() {
-    const res = await logout();
-    if (res) {
-      window.location.reload()
-    } else {
-      console.log('Can not logout! something went wrong while logging out!');
-    }
+  async function logout() {
+    await handleLogout();
   }
 
 
@@ -107,7 +99,7 @@ export default function CTA_Header() {
       {/* Welcome Note */}
       <div className="text-center w-full my-6 space-y-8">
         <div className="fixed text-left m-0">
-          <Button onClick={handleLogout} variant={"destructive"} className="rounded-lg shadow-md font-semibold flex items-center space-x-2">
+          <Button onClick={logout} variant={"destructive"} className="rounded-lg shadow-md font-semibold flex items-center space-x-2">
             <BiLogOut className="size-4" />
             Logout
           </Button>

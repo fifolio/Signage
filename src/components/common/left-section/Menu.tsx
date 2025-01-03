@@ -20,35 +20,40 @@ import { FcSettings } from "react-icons/fc";
 import { FcUpload } from "react-icons/fc";
 import { FcLock } from "react-icons/fc";
 
-// SERVICES
-import { logout } from "@/backend/services/auth/logout";
+
+// HELPERS
+import { handleCreateNewFile, handleLogout} from "@/helpers";
+
+// STORES
+import useUserDataStore from "@/stores/backend/useUserDataStore";
 
 
 
 export default function Menu() {
 
+    // Get user data from store
+    const { userData } = useUserDataStore();
+
     // handle Logout func.
-    async function handleLogout() {
+    async function logout() {
         // setLogoutSpinner(true)
-        const res = await logout();
-        if (res) {
-            window.location.reload()
-        } else {
-            console.log('Can not logout! something went wrong while logging out!, Please reload the page and try again.');
-        }
+        await handleLogout();
     }
+
+    // Handle Create New File
+    async function createNewFile() {
+        await handleCreateNewFile(userData?.name, userData?.name);
+    };
 
     return (
         <Menubar>
             <MenubarMenu>
                 <MenubarTrigger className="flex space-x-2 cursor-pointer">
                     <TiThMenu className="!size-5" />
-                    {/* <span>
-                                Menu
-                            </span> */}
+                    {/* <span>Menu</span> */}
                 </MenubarTrigger>
                 <MenubarContent className="capitalize">
-                    <MenubarItem className="cursor-pointer hover:font-semibold">
+                    <MenubarItem onClick={createNewFile} className="cursor-pointer hover:font-semibold">
                         Create new <MenubarShortcut><FcFile className="size-4" /></MenubarShortcut>
                     </MenubarItem>
                     <Link to="/">
@@ -68,7 +73,7 @@ export default function Menu() {
                         help center <MenubarShortcut><FcInfo className="size-4" /></MenubarShortcut>
                     </MenubarItem>
                     <MenubarSeparator />
-                    <MenubarItem onClick={handleLogout} className="text-red-600 hover:!text-red-600 cursor-pointer hover:font-semibold">
+                    <MenubarItem onClick={logout} className="text-red-600 hover:!text-red-600 cursor-pointer hover:font-semibold">
                         Logout <MenubarShortcut><FcLock className="size-4" /></MenubarShortcut>
                     </MenubarItem>
                 </MenubarContent>

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { Link } from "react-router-dom"
 
 // UI
 import {
@@ -24,6 +25,7 @@ import {
 
 // STORES
 import useAllFiles from "@/stores/backend/useAllFiles"
+import useUserDataStore from "@/stores/backend/useUserDataStore"
 
 // INTERFACES
 import { fetchedWorkspaces_interface } from "@/interfaces"
@@ -33,15 +35,21 @@ import { fetchAllFiles } from "@/backend/services/files/fetchAllFiles"
 
 // ICONS
 import { FaRegFolderOpen } from "react-icons/fa";
-import { Link } from "react-router-dom"
 
+// HELPERS
+import { handleCreateNewFile } from "@/helpers"
 
 
 export default function CTA_Main() {
 
+  // Get user data from store
+  const { userData } = useUserDataStore();
 
   // Loading screen
   const [loadingFiles, setLoadingFiles] = useState<boolean>(true);
+
+  // Loading While Creating New File
+  const [isCreatingNewFile, setIsCreatingNewFile] = useState<boolean>(false);
 
   // Collect Search Data
   const [searchData, setSearchData] = useState<{
@@ -72,6 +80,13 @@ export default function CTA_Main() {
   useEffect(() => {
     initialize();
   }, []);
+
+
+  // Handle Create New File
+  async function createNewFile() {
+    setIsCreatingNewFile(true);
+    await handleCreateNewFile(userData?.name, userData?.name);
+  };
 
   return (
     <div className="flex-col space-y-4 max-w-[800px] mx-auto">
@@ -108,8 +123,15 @@ export default function CTA_Main() {
 
         {/* Start New Workspace Btn */}
         <Button
-          className="w-[200px] h-[40px] shadow-md bg-blue-500 hover:bg-blue-600 active:bg-blue-700 font-semibold text-center"
-        > Start New Workspace ✨
+          onClick={createNewFile}
+          disabled={isCreatingNewFile}
+          className="min-w-[200px] h-[40px] shadow-md bg-blue-500 hover:bg-blue-600 active:bg-blue-700 font-semibold text-center"
+        >
+          {isCreatingNewFile ? (
+            <LoadingState setWidth="28" />
+          ) : (
+            <span>Start New Workspace ✨</span>
+          )}
         </Button>
       </div>
 
@@ -157,9 +179,9 @@ export default function CTA_Main() {
                       </TableCell>
                     </TableRow>
                   )) : (
-                      <div className="flex justify-center items-center w-full h-[250px]">
-                        <span className="text-center mx-auto text-gray-500 font-semibold">No files found</span>
-                      </div>
+                    <div className="flex justify-center items-center w-full h-[250px]">
+                      <span className="text-center mx-auto text-gray-500 font-semibold">No files found</span>
+                    </div>
                   )}
                 </TableBody>
               </Table>
