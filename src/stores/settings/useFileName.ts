@@ -4,7 +4,7 @@ import { useFileName_interface } from '@/interfaces';
 const useFileName = create<useFileName_interface>((set) => ({
 
     // Current file name
-    currentFileName: 'Untitled file',
+    currentFileName: '',
     setCurrentFileName: (state) => set({ currentFileName: state }),
 
     // New file name

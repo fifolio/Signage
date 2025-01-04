@@ -1,7 +1,16 @@
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+
 // UI
 import { Footer, Navbar } from "@/components/common";
-import { Canvas, Manage, Tools } from "@/components";
+import { Canvas, LoadingState, Manage, Tools } from "@/components";
 import { ScrollArea } from "@/components/ui/scroll-area"
+
+// STORES
+import { useFileName, useFileDetails } from "@/stores";
+
+// SERVICES
+import { getFile } from "@/backend/services/files/getFile";
 
 export default function Dashboard() {
 
@@ -9,8 +18,51 @@ export default function Dashboard() {
     const height = window.innerHeight - 90;
     const width = window.innerWidth - 370;
 
-    // Update Page title
-    document.title = "Signage Content Builder";
+    // Get the file details from the URL params
+    const { fileId } = useParams();
+
+    // Loading state
+    const [loadingScreen, setLoadingScreen] = useState<boolean>(true);
+
+    // Save the file details to the store
+    const { setFileDetails } = useFileDetails();
+
+    // Get the file name from the store
+    const { currentFileName, setCurrentFileName } = useFileName();
+
+
+    // Fetch the file details from the database
+    async function getFileDetails() {
+        await getFile(fileId as string)
+            .then((res) => {
+                setFileDetails(res);
+                setCurrentFileName(res.fileName);
+            }).finally(() => {
+                setLoadingScreen(false);
+            });
+    };
+
+    // Fetch the file details on page load
+    useEffect(() => {
+        getFileDetails();
+    }, [fileId]);
+
+    // Update the page title with the file name
+    useEffect(() => {
+        document.title = `${currentFileName === '' ? 'Loading...' : currentFileName} | Workspace`;
+    }, [currentFileName]);
+
+
+
+    // loading indicator
+    if (loadingScreen) {
+        return (
+            <div className="flex justify-center items-center w-full h-screen">
+                <LoadingState setWidth="50" />
+                {/* <p className="text-gray-500">Please wait..</p> */}
+            </div>
+        );
+    }
 
 
     return (
