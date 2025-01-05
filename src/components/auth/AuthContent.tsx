@@ -83,7 +83,7 @@ export default function AuthContent() {
                     {/* Login Form */}
                     <form className="w-full max-w-sm space-y-4">
                         <div className="space-y-2">
-                            <Label htmlFor="email">Signcast's Employee Email</Label>
+                            <Label htmlFor="email">SignCast's Employee Email</Label>
                             <Input autoComplete="false" autoSave="false" autoCorrect="false" autoFocus className="bg-white text-sm" onChange={(e) => setAccessValues({ ...accessValues, email: e.target.value })} id="email" type="email" placeholder="example@signcast.ca" required />
                         </div>
                         <div className="space-y-2">

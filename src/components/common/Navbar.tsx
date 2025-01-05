@@ -19,7 +19,7 @@ export default function Navbar() {
             <Title />
 
             {/* RIGHT SECTION */}
-            <div className="hidden md:flex space-x-2 capitalize">
+            <div className="flex space-x-2 capitalize">
                 {/* SYNC BUTTON */}
                 <SyncBtn />
 

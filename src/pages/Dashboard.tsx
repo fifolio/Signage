@@ -93,7 +93,7 @@ export default function Dashboard() {
                 </ScrollArea>
 
                 {/* MANAGE SECTION */}
-                <div className="hidden md:block bg-white h-screen min-w-[290px] pt-[55px] border-l-[1px] border-gray-200">
+                <div className="block bg-white h-screen min-w-[290px] pt-[55px] border-l-[1px] border-gray-200">
                     <Manage />
                 </div>
             </main>

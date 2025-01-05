@@ -16,8 +16,6 @@ import { TiThMenu } from "react-icons/ti";
 import { FcFile } from "react-icons/fc";
 import { FcOpenedFolder } from "react-icons/fc";
 import { FcInfo } from "react-icons/fc";
-import { FcSettings } from "react-icons/fc";
-import { FcUpload } from "react-icons/fc";
 import { FcLock } from "react-icons/fc";
 
 
@@ -61,13 +59,6 @@ export default function Menu() {
                             open file <MenubarShortcut><FcOpenedFolder className="size-4" /></MenubarShortcut>
                         </MenubarItem>
                     </Link>
-                    <MenubarSeparator className="flex md:hidden" />
-                    <MenubarItem className="flex md:hidden cursor-pointer hover:font-semibold">
-                        Sync updates <MenubarShortcut><FcUpload className="size-4" /></MenubarShortcut>
-                    </MenubarItem>
-                    <MenubarItem className="flex md:hidden cursor-pointer hover:font-semibold">
-                        Settings <MenubarShortcut><FcSettings className="size-4" /></MenubarShortcut>
-                    </MenubarItem>
                     <MenubarSeparator />
                     <MenubarItem className="cursor-pointer hover:font-semibold">
                         help center <MenubarShortcut><FcInfo className="size-4" /></MenubarShortcut>
