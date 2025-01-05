@@ -7,7 +7,7 @@ import { Canvas, LoadingState, Manage, Tools } from "@/components";
 import { ScrollArea } from "@/components/ui/scroll-area"
 
 // STORES
-import { useFileName, useFileDetails } from "@/stores";
+import { useFileName, useFileDetails, useCanvasStore } from "@/stores";
 
 // SERVICES
 import { getFile } from "@/backend/services/files/getFile";
@@ -30,6 +30,9 @@ export default function Dashboard() {
     // Get the file name from the store
     const { currentFileName, setCurrentFileName } = useFileName();
 
+    // State to store the JSON data of the canvas
+    const { setJsonData } = useCanvasStore();
+
 
     // Fetch the file details from the database
     async function getFileDetails() {
@@ -37,6 +40,7 @@ export default function Dashboard() {
             .then((res) => {
                 setFileDetails(res);
                 setCurrentFileName(res.fileName);
+                setJsonData(res.fileData);
             }).finally(() => {
                 setLoadingScreen(false);
             });
@@ -52,7 +56,7 @@ export default function Dashboard() {
         document.title = `${currentFileName === '' ? 'Loading...' : currentFileName} | Workspace`;
     }, [currentFileName]);
 
-
+    
 
     // loading indicator
     if (loadingScreen) {

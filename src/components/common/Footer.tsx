@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 // ICONS
 import { FcHighPriority } from "react-icons/fc";
 import { FcOk } from "react-icons/fc";
@@ -12,6 +14,22 @@ export default function Footer() {
 
     // Check on the saving status
     const { isSaving } = useIsSaving();
+
+    useEffect(() => {
+        const handleBeforeUnload = (event: { returnValue: string; }) => {
+            if (isSaving) {
+                const message = 'Data is still saving. Are you sure you want to leave?';
+                event.returnValue = message; // Standard for most browsers
+                return message; // For some older browsers
+            }
+        };
+
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+    }, [isSaving]);
 
     return (
         <div className="bg-white font-normal text-gray-500 text-sm w-full z-50 m-0 border-t-[1px] border-gray-200 px-3 py-2 flex justify-between items-center">

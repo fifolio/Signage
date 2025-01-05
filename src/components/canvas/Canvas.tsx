@@ -2,10 +2,16 @@ import { useEffect, useRef, useState } from 'react';
 import Konva from 'konva';
 
 // STORES
-import { useTools } from '@/stores';
+import { useFileDetails, useTools, useUserDataStore } from '@/stores';
 import { useCanvasStore } from '@/stores';
+import useIsSaving from '@/stores/footer/useIsSaving';
+
+// SERVICES
+import { updateFileData } from '@/backend/services/files/updateFileData';
+
 
 export default function Canvas() {
+
   const [isCanvasReady, setIsCanvasReady] = useState(false);
 
   // Refs for stage and layer
@@ -16,7 +22,17 @@ export default function Canvas() {
   const [selectedObject, setSelectedObject] = useState<Konva.Shape | null>(null);
 
   // State to store the JSON data of the canvas
-  const { setJsonData } = useCanvasStore();
+  const { jsonData, setJsonData } = useCanvasStore();
+
+  // Get user details from store
+  const { userData } = useUserDataStore();
+
+  // Get file details from store
+  const { fileDetails } = useFileDetails();
+
+  // Check on the saving status
+  const { setIsSaving } = useIsSaving();
+
 
   const {
     // Add Text
@@ -55,6 +71,65 @@ export default function Canvas() {
     setVideoUrl,
   } = useTools();
 
+  // Function to load images and videos from URLs
+  const loadAssets = (node: Konva.Node) => {
+    if (node.getClassName() === 'Image') {
+      // Handle images
+      const imageUrl = node.getAttr('imageUrl');
+      if (imageUrl) {
+        const image = new window.Image();
+        image.src = imageUrl;
+        image.onload = () => {
+          node.setAttr('image', image); // Set the loaded image
+          node.getLayer()?.batchDraw(); // Redraw the layer
+        };
+      }
+
+      // Handle videos
+      const videoUrl = node.getAttr('videoUrl');
+      if (videoUrl) {
+        const video = document.createElement('video');
+        video.src = videoUrl;
+        video.autoplay = true;
+        video.loop = true;
+        video.muted = false; // Ensure the video is muted for autoplay
+
+        video.onloadeddata = () => {
+          node.setAttr('image', video); // Set the video as the image
+          node.getLayer()?.batchDraw(); // Redraw the layer
+
+          // Restore playback state
+          const isPlaying = node.getAttr('isPlaying');
+          if (isPlaying) {
+            video.play();
+          } else {
+            video.pause();
+          }
+
+          // Add click event to toggle play/pause
+          node.on('click', () => {
+            if (video.paused) {
+              video.play();
+            } else {
+              video.pause();
+            }
+            node.getLayer()?.batchDraw();
+          });
+
+          // Start the video frame update loop
+          const updateVideoFrame = () => {
+            node.setAttr('image', video);
+            node.getLayer()?.batchDraw();
+            requestAnimationFrame(updateVideoFrame);
+          };
+
+          updateVideoFrame();
+        };
+      }
+    }
+  };
+
+
   // Initialize Konva stage and layer
   useEffect(() => {
     const stage = new Konva.Stage({
@@ -64,21 +139,27 @@ export default function Canvas() {
     });
     const layer = new Konva.Layer();
 
-    // Add a pointer cursor to the every shape on the layer
-    layer.on('mouseover', (e) => {
-      const shape = e.target;
-      document.body.style.cursor = 'pointer';
-      shape.on('mouseout', () => {
-        document.body.style.cursor = 'default';
-      });
-    });
-
     // Add layer to the stage
     stage.add(layer);
 
     // Save stage and layer in refs
     stageRef.current = stage;
     layerRef.current = layer;
+
+    // Load JSON data if it exists
+    if (jsonData) {
+      const loadedStage = Konva.Node.create(jsonData, 'container') as Konva.Stage;
+      stageRef.current = loadedStage;
+      layerRef.current = loadedStage.getLayers()[0];
+
+      // Add event listeners and load assets for all nodes
+      loadedStage.getLayers().forEach((layer) => {
+        layer.getChildren().forEach((node) => {
+          addEventListeners(node);
+          loadAssets(node); // Load images and videos
+        });
+      });
+    }
 
     setIsCanvasReady(true);
   }, []);
@@ -349,7 +430,7 @@ export default function Canvas() {
       video.src = `${videoUrl}`;
       video.autoplay = true;
       video.loop = true;
-      // video.muted = true;
+      video.muted = false;
       video.onloadeddata = () => {
         const myVideo = new Konva.Image({
           x: 50,
@@ -487,6 +568,32 @@ export default function Canvas() {
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [selectedObject]);
+
+
+  // Update the JSON Data
+  function sentDataToBackend() {
+    setIsSaving(true);
+    setTimeout(async () => {
+      await updateFileData(
+        fileDetails?.$id,
+        jsonData,
+        userData?.name
+      ).then((res) => {
+        if (res === true) {
+          setIsSaving(false);
+        } else if (res === false) {
+          console.log('Error while updating the file', res)
+          setIsSaving(false);
+        }
+      })
+    }, 5000)
+  }
+
+  useEffect(() => {
+    sentDataToBackend();
+  }, [jsonData]);
+
+
 
   return (
     <div className="bg-white my-2 mx-auto pr-5 border-[1px] border-gray-200 min-h-[500px] w-[970px]">

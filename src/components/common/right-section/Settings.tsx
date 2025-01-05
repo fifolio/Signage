@@ -69,6 +69,8 @@ export default function Settings() {
                 setNewFileName(newFileName);
                 setCurrentFileName(newFileName);
                 setLoadingUpdateName(false);
+            }).finally(() => {
+                setNewFileName('');
             });
     };
 
@@ -142,7 +144,7 @@ export default function Settings() {
                                     id="fileDeleteID"
                                     maxLength={20}
                                     onChange={(e) => setFileDeleteID(e.target.value)}
-                                    placeholder="Enter file ID to delete"
+                                    placeholder="Enter File Delete ID to continue"
                                 />
                             </div>
                             <Separator />
@@ -196,6 +198,7 @@ export default function Settings() {
                                 <Input
                                     id="fileName"
                                     maxLength={25}
+                                    value={newFileName}
                                     onChange={(e) => setNewFileName(e.target.value)}
                                     placeholder="Enter new file title"
                                 />
@@ -205,7 +208,7 @@ export default function Settings() {
                                 <Button onClick={() => setShowDeleteAlert(true)} variant="destructive">
                                     Delete file
                                 </Button>
-                                <Button disabled={newFileName === '' || newFileName.trim().length === 0 || loadingUpdateName} className="min-w-[150px]" onClick={handleUpdateFileName}>
+                                <Button disabled={newFileName === '' || newFileName.length === 0 || newFileName.trim().length === 0 || loadingUpdateName} className="min-w-[150px]" onClick={handleUpdateFileName}>
                                     {loadingUpdateName ? (
                                         <LoadingState setWidth="28" />
                                     ) : (
