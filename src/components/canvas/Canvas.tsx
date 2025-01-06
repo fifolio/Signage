@@ -572,21 +572,26 @@ export default function Canvas() {
 
   // Update the JSON Data
   function sentDataToBackend() {
-    setIsSaving(true);
-    setTimeout(async () => {
-      await updateFileData(
-        fileDetails?.$id,
-        jsonData,
-        userData?.name
-      ).then((res) => {
-        if (res === true) {
-          setIsSaving(false);
-        } else if (res === false) {
-          console.log('Error while updating the file', res)
-          setIsSaving(false);
-        }
-      })
-    }, 5000)
+    // Prevent Updating the 'Welcome' File
+    if (fileDetails?.$id === "677a7399002e2dc1a522") {
+      console.log('Oops!, you are not allowed to make any changes on this file.')
+    } else {
+      setIsSaving(true);
+      setTimeout(async () => {
+        await updateFileData(
+          fileDetails?.$id,
+          jsonData,
+          userData?.name
+        ).then((res) => {
+          if (res === true) {
+            setIsSaving(false);
+          } else if (res === false) {
+            console.log('Error while updating the file', res)
+            setIsSaving(false);
+          }
+        })
+      }, 5000)
+    }
   }
 
   useEffect(() => {

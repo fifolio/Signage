@@ -63,15 +63,20 @@ export default function Settings() {
 
     // Update file name
     async function handleUpdateFileName() {
-        setLoadingUpdateName(true)
-        await updateFileName(fileDetails?.$id, newFileName, userData?.name)
-            .then(() => {
-                setNewFileName(newFileName);
-                setCurrentFileName(newFileName);
-                setLoadingUpdateName(false);
-            }).finally(() => {
-                setNewFileName('');
-            });
+         // Prevent Updating the 'Welcome' File
+    if (fileDetails?.$id === "677a7399002e2dc1a522") {
+        console.log('Oops!, you are not allowed to make any changes on this file.')
+      } else {
+          setLoadingUpdateName(true)
+          await updateFileName(fileDetails?.$id, newFileName, userData?.name)
+              .then(() => {
+                  setNewFileName(newFileName);
+                  setCurrentFileName(newFileName);
+                  setLoadingUpdateName(false);
+              }).finally(() => {
+                  setNewFileName('');
+              });
+      }
     };
 
     // Reset the new file name when the dialog is closed
@@ -128,7 +133,7 @@ export default function Settings() {
                                         <p className="py-2"></p>
                                         If you believe deleting this file is absolutely necessary, please contact the admin team of IT department at Signcast Media directly to request and obtain the required authorization code.
                                         <p className="py-2"></p>
-                                        Please note that the "File ID (e.g, <span className="text-black">980b2cc2df9</span>)" displayed for this file is distinct from the required "File Delete ID (e.g, <span className="text-black">6775817400164cb423dc</span>)". The "File ID" is for public visibility and sharing. The "File Delete ID" is a secure code exclusively held by the Signcast Media IT administration team.
+                                        Please note that the "File ID (e.g, <span className="text-black">11e306f492d</span>)" displayed for this file is distinct from the required "File Delete ID (e.g, <span className="text-black">6775817400164cb423dc</span>)". The "File ID" is for public visibility and sharing. The "File Delete ID" is a secure code exclusively held by the Signcast Media IT administration team.
                                         <p className="py-2"></p>
                                         Once you have the code, you'll be able to enter it into the field below to complete the deletion.
                                     </span>
