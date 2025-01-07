@@ -45,8 +45,8 @@ export default function CTA_Header() {
       const registrationTime = new Date(userData.registration);
       const currentTime = new Date();
 
-      // Determine if First-Time-User based on a threshold (e.g., 1 hour)
-      const thresholdInMilliseconds = 60 * 60 * 1000; // 1 hour
+      // Determine if First-Time-User based on a threshold (e.g., 10 hour)
+      const thresholdInMilliseconds = 10 * 60 * 60 * 1000; // 10 hour
       const isFirstTimeUser = currentTime.getTime() - registrationTime.getTime() < thresholdInMilliseconds;
       setIsFTU(isFirstTimeUser);
 
