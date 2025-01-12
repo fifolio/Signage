@@ -8,7 +8,7 @@ import { logout } from "@/backend/services/auth/logout";
             // navigate to home page
             window.location.href = '/';
         } else {
-            console.log('Can not logout! something went wrong while logging out!, Please reload the page and try again.');
+            console.error('Can not logout! something went wrong while logging out!, Please reload the page and try again.');
         }
     }
 

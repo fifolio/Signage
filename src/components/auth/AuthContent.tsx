@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Link } from 'react-router-dom';
 
 // UI
 import { Input } from "@/components/ui/input"
@@ -56,7 +55,7 @@ export default function AuthContent() {
                     setIsLoading(false)
                 }
             })
-    }
+    }    
 
     return (
         <div className="flex h-screen">
@@ -108,9 +107,9 @@ export default function AuthContent() {
                     <Separator className="w-[200px] mt-20" />
 
                     {/* Access Problems Link */}
-                    <Link to="#" className="mt-4 text-sm text-blue-600 hover:underline">
-                        Having trouble accessing with your credentials?
-                    </Link>
+                    <p className="text-center mt-4 text-sm text-gray-700">
+                        Having trouble accessing with your credentials? Please contact SignCast media IT administration team for help.
+                    </p>
                 </div>
 
             </div>

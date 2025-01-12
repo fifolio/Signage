@@ -89,12 +89,11 @@ export default function Settings() {
     async function handleDeleteFile() {
         setLodingDeleteFile(true)
         if (fileDeleteID == fileDetails?.$id) {
-            await deleteFile(fileDeleteID)
+            await deleteFile(fileDeleteID, fileDetails.fileId)
                 .then((res) => {
                     if (res === true) {
                         window.location.href = '/';
                     } else {
-                        console.log("Error! File cannot be deleted: ", res);
                         setLodingDeleteFile(false);
                     }
                 });

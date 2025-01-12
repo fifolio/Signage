@@ -13,11 +13,9 @@ export async function updateFileData(
         `${fileId}`,
         { fileData: fileData, fileLatestEditor: fileLatestEditor }
     ).then((response) => {
-        console.log(response)
-        return true
+        return response && true
     }).catch((err) => {
-        console.log(err)
-        return false
+        return err && false
     })
 
     return res

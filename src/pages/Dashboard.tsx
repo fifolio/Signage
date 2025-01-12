@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 // UI
 import { Footer, Navbar } from "@/components/common";
 import { Canvas, LoadingState, Manage, Tools } from "@/components";
-import { ScrollArea } from "@/components/ui/scroll-area"
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 
 // STORES
 import { useFileName, useFileDetails, useCanvasStore } from "@/stores";
@@ -56,7 +56,7 @@ export default function Dashboard() {
         document.title = `${currentFileName === '' ? 'Loading...' : currentFileName} | Workspace`;
     }, [currentFileName]);
 
-    
+
 
     // loading indicator
     if (loadingScreen) {
@@ -88,8 +88,10 @@ export default function Dashboard() {
                 </div>
 
                 {/* CANVAS SECTION */}
-                <ScrollArea style={{ height: height, maxWidth: width, }} className={`mt-[52.5px]`}>
+                <ScrollArea style={{ height: height, maxWidth: width, }} className={`mt-[51px] py-1 px-2`}>
                     <Canvas />
+
+                    <ScrollBar orientation="horizontal" />
                 </ScrollArea>
 
                 {/* MANAGE SECTION */}

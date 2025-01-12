@@ -64,7 +64,6 @@ export default function AddImage() {
 
         if (result.success) {
             // Handle successful upload if needed
-            console.log('Image uploaded successfully');
             setIsDialogOpen(false);
         } else {
             // Handle failed upload if needed

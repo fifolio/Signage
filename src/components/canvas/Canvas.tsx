@@ -601,9 +601,9 @@ export default function Canvas() {
 
 
   return (
-    <div className="bg-white my-2 mx-auto pr-5 border-[1px] border-gray-200 min-h-[500px] w-[970px]">
+    <div className="bg-white my-2 mx-auto pr-5 border-[1px] border-gray-200 min-h-[1080px] w-[1920px]">
       {/* Init canvas stage */}
-      <div id="container" className="rounded-md min-w-[950px] min-h-[480px]"></div>
+      <div id="container" className="rounded-md min-w-[1920px] min-h-[1080px]"></div>
     </div>
   );
 }

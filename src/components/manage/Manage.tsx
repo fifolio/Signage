@@ -12,7 +12,7 @@ export default function Manage() {
             {/* PREVIEW AREA */}
             <Preview />
 
-            <div>
+            <div className="hidden">
                 <Separator />
 
                 {/* DISPLAY MANAGE AREA */}

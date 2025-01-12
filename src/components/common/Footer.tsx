@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
 // ICONS
-import { FcHighPriority } from "react-icons/fc";
+// import { FcHighPriority } from "react-icons/fc";
 import { FcOk } from "react-icons/fc";
 
 // UI
@@ -36,26 +36,9 @@ export default function Footer() {
 
             {/* LEFT AREA */}
             <div className="flex justify-start">
-                {/* CONNECTION STATE */}
+                {/* PLATFORM VERSION */}
                 <div>
-                    {/* Disconnected - INDICATOR */}
-                    <span id="disconnected" className="block">
-                        <div className="flex justify-center items-center space-x-2">
-                            <span><FcHighPriority className="!size-4" /></span>
-                            <span>Disconnected</span>
-                        </div>
-                    </span>
-
-                    {/* Connected - INDICATOR */}
-                    <span id="connected" className="hidden">
-                        <div className="flex justify-center items-center space-x-2">
-                            <span><FcOk className="!size-4" /></span>
-                            <span className="border-r-[1px] pr-2">Connected</span>
-                            <div className="">
-                                Display ID: DISP-001
-                            </div>
-                        </div>
-                    </span>
+                    SignCast Workspace v1.1.0
                 </div>
             </div>
 
@@ -77,7 +60,7 @@ export default function Footer() {
             </div>
 
             {/* RIGHT AREA */}
-            <div>Canvas: 1920 × 1080 px</div>
+            <div>Dimensions: 1920 × 1080 px</div>
         </div>
     )
 }

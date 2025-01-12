@@ -13,7 +13,6 @@ export async function login({ email, password }: Login) {
     ).then((res) => {
         return res && true
     }).catch((err) => {
-        console.log(err)
         return err.type && false
     })
 

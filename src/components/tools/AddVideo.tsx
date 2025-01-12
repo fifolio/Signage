@@ -73,7 +73,6 @@ export default function AddVideo() {
 
         if (result.success) {
             // Handle successful upload if needed
-            console.log('Video uploaded successfully');
             setCheckPoint(true);
         } else {
             // Handle failed upload if needed

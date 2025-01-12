@@ -29,9 +29,9 @@ export default function Preview() {
 
       // Recreate the stage from JSON data
       const stage = Konva.Node.create(jsonData, 'previewContainer');
-      stage.scale({ x: 0.273, y: 0.3 }); // Scale to fit within 265x350
-      stage.width(265);
-      stage.height(320);
+      stage.scale({ x: 0.138, y: 0.140 }); // Scale to fit within 267x153
+      stage.width(267);
+      stage.height(153);
 
       // Load images and videos
       stage.find('Image').forEach((node: Konva.Image) => {
@@ -107,17 +107,17 @@ export default function Preview() {
       </div>
 
       {/* PREVIEW BOX */}
-      <div className="bg-white my-2 border-[1px] border-gray-200 h-[320px] w-[266px]">
+      <div className="bg-white my-2 border-[1px] border-gray-200 h-[154px] w-[267px]">
        
         {/* NO DATA */}
         {!isStageHasObjects && (
-          <span className="text-gray-500 text-sm flex justify-center items-center h-0 absolute mt-[155px] w-[260px] mx-auto text-center">
+          <span className="text-gray-500 text-sm flex justify-center items-center h-0 absolute mt-[80px] w-[260px] mx-auto text-center">
             Update your workspace by adding objects, then click "Refresh" to see the changes.
           </span>
         )}
        
         {/* PREVIEW CONTAINER */}
-        <div id="previewContainer" className="min-w-[265px] h-[320px]">
+        <div id="previewContainer" className="min-w-[267px] h-[154px]">
         </div>
       
         {/* PREVIEW NOTE */}
