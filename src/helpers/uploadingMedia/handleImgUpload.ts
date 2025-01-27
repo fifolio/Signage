@@ -39,9 +39,6 @@ export default async function handleImgUpload(
 
         } catch (error) {
             console.error('Error uploading the image', error);
-            console.error('FormData:', formData);
-            console.error('Upload Preset:', import.meta.env.VITE_UPLOAD_PRESET_KEY);
-            console.error('Cloud Name:', import.meta.env.VITE_CLOUD_NAME);
             setAddImg(false)
         }
     }
