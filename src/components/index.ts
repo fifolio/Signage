@@ -7,4 +7,5 @@ export { default as LoadingState } from './ui/LoadingState';
 export { default as AuthContent } from './auth/AuthContent';
 export { default as CTA_Header } from './cta/CTA_Header';
 export { default as CTA_Main } from './cta/CTA_Main';
+export { default as DiscoverContent } from './discover/DiscoverContent';
 

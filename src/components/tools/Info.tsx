@@ -7,6 +7,8 @@ import { FcInfo } from "react-icons/fc";
 
 export default function Info() {
   return (
-    <Button variant="outline"><FcInfo className="!size-5" /></Button>
-)
+    <a href="/discover" target="_blank">
+      <Button variant="outline"><FcInfo className="!size-5" /></Button>
+    </a>
+  )
 }

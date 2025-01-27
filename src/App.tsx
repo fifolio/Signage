@@ -9,7 +9,7 @@ import useIsUserLoggedInState from './stores/backend/useIsLoggedinState';
 import { useLoadingScreen } from './stores';
 
 // PAGES
-import { CTA, Dashboard } from './pages';
+import { CTA, Dashboard, Discover } from './pages';
 import { Auth } from './pages';
 
 // UI
@@ -69,6 +69,7 @@ export default function App() {
       <Toaster />
 
       <Routes>
+        <Route path="/discover" element={<Discover />} />
         {isUserLoggedIn ? (
           <>
             <Route index path="/" element={<CTA />} />

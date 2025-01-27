@@ -13,24 +13,24 @@ import {
 
 // ICONS
 import { TiThMenu } from "react-icons/ti";
-import { FcFile } from "react-icons/fc";
+// import { FcFile } from "react-icons/fc";
 import { FcOpenedFolder } from "react-icons/fc";
 import { FcInfo } from "react-icons/fc";
 import { FcLock } from "react-icons/fc";
 
 
 // HELPERS
-import { handleCreateNewFile, handleLogout} from "@/helpers";
+import { handleLogout } from "@/helpers";
 
 // STORES
-import useUserDataStore from "@/stores/backend/useUserDataStore";
+// import useUserDataStore from "@/stores/backend/useUserDataStore";
 
 
 
 export default function Menu() {
 
     // Get user data from store
-    const { userData } = useUserDataStore();
+    // const { userData } = useUserDataStore();
 
     // handle Logout func.
     async function logout() {
@@ -39,9 +39,9 @@ export default function Menu() {
     }
 
     // Handle Create New File
-    async function createNewFile() {
-        await handleCreateNewFile(userData?.name, userData?.name);
-    };
+    // async function createNewFile() {
+    //     await handleCreateNewFile(userData?.name, userData?.name);
+    // };
 
     return (
         <Menubar>
@@ -51,18 +51,20 @@ export default function Menu() {
                     {/* <span>Menu</span> */}
                 </MenubarTrigger>
                 <MenubarContent className="capitalize">
-                    <MenubarItem onClick={createNewFile} className="cursor-pointer hover:font-semibold">
+                    {/* <MenubarItem onClick={createNewFile} className="cursor-pointer hover:font-semibold">
                         Create new <MenubarShortcut><FcFile className="size-4" /></MenubarShortcut>
-                    </MenubarItem>
+                    </MenubarItem> */}
                     <Link to="/">
                         <MenubarItem className="cursor-pointer hover:font-semibold">
-                            open file <MenubarShortcut><FcOpenedFolder className="size-4" /></MenubarShortcut>
+                            Back to files <MenubarShortcut><FcOpenedFolder className="size-4" /></MenubarShortcut>
                         </MenubarItem>
                     </Link>
                     <MenubarSeparator />
-                    <MenubarItem className="cursor-pointer hover:font-semibold">
-                        help center <MenubarShortcut><FcInfo className="size-4" /></MenubarShortcut>
-                    </MenubarItem>
+                    <a href="/discover" target="_blank">
+                        <MenubarItem className="cursor-pointer hover:font-semibold">
+                            Discover <MenubarShortcut><FcInfo className="size-4" /></MenubarShortcut>
+                        </MenubarItem>
+                    </a>
                     <MenubarSeparator />
                     <MenubarItem onClick={logout} className="text-red-600 hover:!text-red-600 cursor-pointer hover:font-semibold">
                         Logout <MenubarShortcut><FcLock className="size-4" /></MenubarShortcut>
