@@ -28,12 +28,20 @@ export default async function handleImgUpload(
         try {
             const response = await axios.post(
                 `https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUD_NAME}/image/upload`,
-                formData
+                formData,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }
             );
             setImgUrl(response.data.secure_url);
 
         } catch (error) {
             console.error('Error uploading the image', error);
+            console.error('FormData:', formData);
+            console.error('Upload Preset:', import.meta.env.VITE_UPLOAD_PRESET_KEY);
+            console.error('Cloud Name:', import.meta.env.VITE_CLOUD_NAME);
             setAddImg(false)
         }
     }
