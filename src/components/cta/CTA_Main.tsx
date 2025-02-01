@@ -101,7 +101,7 @@ export default function CTA_Main() {
             <SelectValue placeholder="Search By" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="fileId">File ID <span className="text-gray-700">(recommended)</span></SelectItem>
+            <SelectItem value="fileId">Screen ID <span className="text-gray-700">(recommended)</span></SelectItem>
             <SelectItem value="fileName">File Title</SelectItem>
             <SelectItem value="fileCreator">File Creator</SelectItem>
           </SelectContent>
@@ -111,7 +111,7 @@ export default function CTA_Main() {
         {/* Search Bar */}
         <input
           type="text"
-          placeholder={`Search By ${searchData.searchBy === "fileId" ? "file ID" : searchData.searchBy === "fileName" ? "file title" : searchData.searchBy === "fileCreator" ? "Creator name" : 'file ID'}`.toLowerCase()}
+          placeholder={`Search By ${searchData.searchBy === "fileId" ? "screen ID" : searchData.searchBy === "fileName" ? "file title" : searchData.searchBy === "fileCreator" ? "Creator name" : 'screen ID'}`.toLowerCase()}
           className="w-full h-[40px] px-4 border-[1px] shadow-sm border-gray-200 rounded-md capitalize"
           onChange={(e) => setSearchData({ ...searchData, searchValue: e.target.value })}
         />
@@ -148,7 +148,7 @@ export default function CTA_Main() {
             <Table>
               <TableHeader className="sticky top-0 bg-white z-10 uppercase font-semibold">
                 <TableRow>
-                  <TableHead className="w-[95px]">File ID</TableHead>
+                  <TableHead className="w-[95px]">Screen ID</TableHead>
                   <TableHead className="w-[100px]">Title</TableHead>
                   <TableHead className="w-[100px]">Creator</TableHead>
                   <TableHead className="w-[100px]">Latest Editor</TableHead>

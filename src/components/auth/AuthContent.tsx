@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 // UI
 import { Input } from "@/components/ui/input"
@@ -51,11 +52,11 @@ export default function AuthContent() {
                         title: "Oops! Incorrect Credentials",
                         description: "It looks like the email or password you entered doesn't match our records. Please double-check your credentials and try again. If you continue to have trouble, feel free to reach out for assistance. We're here to help!",
                         variant: "destructive"
-                      })
+                    })
                     setIsLoading(false)
                 }
             })
-    }    
+    }
 
     return (
         <div className="flex h-screen">
@@ -80,15 +81,16 @@ export default function AuthContent() {
                     </div>
 
                     {/* Login Form */}
-                    <form className="w-full max-w-sm space-y-4">
-                        <div className="space-y-2">
+                    <form className="w-full max-w-sm mt-5">
+                        <div>
                             <Label htmlFor="email">SignCast's Employee Email</Label>
-                            <Input autoComplete="false" autoSave="false" autoCorrect="false" autoFocus className="bg-white text-sm" onChange={(e) => setAccessValues({ ...accessValues, email: e.target.value })} id="email" type="email" placeholder="example@signcast.ca" required />
+                            <Input autoComplete="false" autoSave="false" autoCorrect="false" autoFocus className="bg-white text-sm mt-3" onChange={(e) => setAccessValues({ ...accessValues, email: e.target.value })} id="email" type="email" placeholder="example@signcast.ca" required />
                         </div>
-                        <div className="space-y-2">
-                            <Label htmlFor="password">Company Password</Label>
-                            <Input className="bg-white text-sm" onChange={(e) => setAccessValues({ ...accessValues, password: e.target.value })} id="password" type="password" placeholder="Enter your company password" required />
+                        <div className="mt-3">
+                            <Label htmlFor="password">Password</Label>
+                            <Input className="bg-white text-sm mt-3" onChange={(e) => setAccessValues({ ...accessValues, password: e.target.value })} id="password" type="password" placeholder="Enter your company password" required />
                         </div>
+                        <br />
                         <Button type="button" onClick={handleAccess} disabled={isLoading || accessValues.email.trim().length === 0 || accessValues.password.trim().length === 0} className="w-full">
                             {isLoading ? (
                                 <div className="flex items-center space-x-2">
@@ -103,11 +105,17 @@ export default function AuthContent() {
                             )}
                         </Button>
                     </form>
+                    <Separator className="w-[200px] my-5" />
 
-                    <Separator className="w-[200px] mt-20" />
+                        <Link 
+                        to="/discover" 
+                        target="_blank" 
+                        className="px-3 py-2 border-[1px] border-gray-400 bg-white rounded-full text-sm font-semibold shadow-sm hover:shadow-md mb-5">✨ Discover More</Link>
+
+                    <Separator className="w-[200px] mb-10" />
 
                     {/* Access Problems Link */}
-                    <p className="text-center mt-4 text-sm text-gray-700">
+                    <p className="text-center text-sm text-gray-700">
                         Having trouble accessing with your credentials? Please contact SignCast media IT administration team for help.
                     </p>
                 </div>

@@ -133,12 +133,12 @@ export default function DiscoverContent() {
                             <h2 className="text-2xl font-bold tracking-tighter mb-2 text-transparent bg-clip-text bg-gradient-to-r from-green-500 via-purple-700 to-blue-700">SDA Application</h2>
                             <h3 className="text-xl font-semibold mb-4">Your Gateway to Display 🌟</h3>
                             <p className="text-gray-600 mb-6">
-                                Download our powerful desktop application and take your signages to the world! Inside, you'll find a
-                                comprehensive catalog that guides you step-by-step on how to use the application and showcases all its key
+                                Download our powerful desktop application and take your signages to the world! Inside, you'll find a 
+                                <b> comprehensive catalog</b> that guides you step-by-step on how to use the application and showcases all its key
                                 features.
                             </p>
                             <div className="max-w-fit">
-                                <a href="#" target="_blank">
+                                <a href="https://github.com/fifolio/SDA/releases/download/v1.0.0/SignCast_SDA_v1.0.0.zip">
                                     <img src="/assets/windows-button.png" alt="download button" width={200} className="shadow-sm hover:shadow-lg" />
                                 </a>
                             </div>

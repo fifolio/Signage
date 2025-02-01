@@ -56,7 +56,7 @@ export default function Settings() {
     const [fileDeleteID, setFileDeleteID] = useState<string>('');
     const [loadingDeleteFile, setLodingDeleteFile] = useState<boolean>(false);
 
-    // Copy file ID to clipboard
+    // Copy Screen ID to clipboard
     const handleCopyFileId = async () => {
         await navigator.clipboard.writeText(fileDetails?.fileId)
     }
@@ -132,7 +132,7 @@ export default function Settings() {
                                         <p className="py-2"></p>
                                         If you believe deleting this file is absolutely necessary, please contact the admin team of IT department at Signcast Media directly to request and obtain the required authorization code.
                                         <p className="py-2"></p>
-                                        Please note that the "File ID (e.g, <span className="text-black">11e306f492d</span>)" displayed for this file is distinct from the required "File Delete ID (e.g, <span className="text-black">6775817400164cb423dc</span>)". The "File ID" is for public visibility and sharing. The "File Delete ID" is a secure code exclusively held by the Signcast Media IT administration team.
+                                        Please note that the "Screen ID (e.g, <span className="text-black">11e306f492d</span>)" displayed for this file is distinct from the required "File Delete ID (e.g, <span className="text-black">6775817400164cb423dc</span>)". The "Screen ID" is for public visibility and sharing. The "File Delete ID" is a secure code exclusively held by the Signcast Media IT administration team.
                                         <p className="py-2"></p>
                                         Once you have the code, you'll be able to enter it into the field below to complete the deletion.
                                     </span>
@@ -176,7 +176,7 @@ export default function Settings() {
                         </DialogHeader>
                         <div className="grid gap-4 mt-2">
                             <div className="grid gap-3 mb-2">
-                                <Label htmlFor="fileId">File ID</Label>
+                                <Label htmlFor="fileId">Screen ID</Label>
                                 <div className="flex items-center gap-2">
                                     <Input
                                         id="fileId"
@@ -188,7 +188,7 @@ export default function Settings() {
                                         variant="outline"
                                         size="icon"
                                         onClick={handleCopyFileId}
-                                        aria-label="Copy file ID"
+                                        aria-label="Copy Screen ID"
                                     >
                                         <FiCopy className="h-4 w-4" />
                                     </Button>
