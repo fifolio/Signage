@@ -595,7 +595,9 @@ export default function Canvas() {
   }
 
   useEffect(() => {
-    sentDataToBackend();
+    setTimeout(() => {
+      sentDataToBackend();
+    }, 5000)
   }, [jsonData]);
 
 
