@@ -97,7 +97,7 @@ export default function CTA_Main() {
 
         {/* Search By */}
         <Select defaultValue="fileId" onValueChange={(value) => setSearchData({ ...searchData, searchBy: value })}>
-          <SelectTrigger className="max-w-[200px] h-[40px] bg-white border-[1px] shadow-sm border-gray-200 rounded-md font-semibold">
+          <SelectTrigger className="max-w-[210px] h-[40px] bg-white border-[1px] shadow-sm border-gray-200 rounded-md font-semibold">
             <SelectValue placeholder="Search By" />
           </SelectTrigger>
           <SelectContent>
